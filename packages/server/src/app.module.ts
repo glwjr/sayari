@@ -19,7 +19,7 @@ import { UsersModule } from './users/users.module';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '24h' },
     }),
     AuthModule,
     UsersModule,

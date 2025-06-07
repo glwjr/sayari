@@ -1,13 +1,14 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { compareHash } from './auth.util';
+import { User } from 'src/users/user.entity';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,47 +17,59 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(
-    username: string,
-    password: string,
-  ): Promise<{ access_token: string }> {
-    const user = await this.usersService.findByUsername(username);
-
-    if (!user) {
-      throw new NotFoundException();
+  async validateUser(userId: string): Promise<Partial<User> | null> {
+    const user = await this.usersService.findById(userId);
+    if (user) {
+      const { passwordHash, ...result } = user;
+      return result;
     }
+    return null;
+  }
 
-    const authorized = await compareHash(password, user.passwordHash);
+  async login(
+    loginDto: LoginDto,
+  ): Promise<{ access_token: string; user: Partial<User> }> {
+    const user = await this.usersService.findByUsername(loginDto.username);
 
-    if (!authorized) {
-      throw new UnauthorizedException();
+    if (!user || !(await compareHash(loginDto.password, user.passwordHash))) {
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const payload = { sub: user.id, username: user.username };
+
     return {
       access_token: await this.jwtService.signAsync(payload),
+      user: {
+        id: user.id,
+        username: user.username,
+      },
     };
   }
 
-  async signUp(
-    username: string,
-    password: string,
-  ): Promise<{ access_token: string }> {
-    const userExists = await this.usersService.findByUsername(username);
+  async register(
+    registerDto: RegisterDto,
+  ): Promise<{ access_token: string; user: Partial<User> }> {
+    const existingUser = await this.usersService.findByUsername(
+      registerDto.username,
+    );
 
-    if (userExists) {
+    if (existingUser) {
       throw new ConflictException();
     }
 
-    const user = await this.usersService.create({ username, password });
-
-    if (!user) {
-      throw new BadRequestException();
-    }
+    const user = await this.usersService.create(
+      registerDto.username,
+      registerDto.password,
+    );
 
     const payload = { sub: user.id, username: user.username };
+
     return {
       access_token: await this.jwtService.signAsync(payload),
+      user: {
+        id: user.id,
+        username: user.username,
+      },
     };
   }
 }

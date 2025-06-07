@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { hashPassword } from 'src/auth/auth.util';
 
@@ -12,10 +11,10 @@ export class UsersService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(username: string, password: string): Promise<User> {
     const user = new User();
-    user.username = createUserDto.username;
-    user.passwordHash = await hashPassword(createUserDto.password);
+    user.username = username;
+    user.passwordHash = await hashPassword(password);
 
     return this.usersRepository.save(user);
   }
@@ -24,12 +23,12 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  async findByUsername(username: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ username });
+  async findById(id: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ id });
   }
 
-  async findOne(id: number): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id });
+  async findByUsername(username: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ username });
   }
 
   async remove(id: string): Promise<void> {

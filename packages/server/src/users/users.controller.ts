@@ -17,7 +17,8 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.create(createUserDto);
+    const { username, password } = createUserDto;
+    return this.usersService.create(username, password);
   }
 
   @Get()
@@ -26,8 +27,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<User | null> {
-    return this.usersService.findOne(id);
+  findById(@Param('id', ParseIntPipe) id: string): Promise<User | null> {
+    return this.usersService.findById(id);
   }
 
   @Delete(':id')
