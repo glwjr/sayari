@@ -9,6 +9,13 @@
   "license": "MIT",
   "description": "",
   "workspaces": [
-    "packages/server"
-  ]
+    "packages/server",
+    "packages/web"
+  ],
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "eslint": "^9",
+    "@eslint/eslintrc": "^3"
+  }
 }
