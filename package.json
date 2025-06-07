@@ -13,9 +13,13 @@
     "packages/web"
   ],
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "eslint": "^9",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.2.4",
+    "@heroicons/react": "^2.2.0"
   }
 }
