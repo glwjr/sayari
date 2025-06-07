@@ -24,13 +24,20 @@ export class AuthController {
   }
 
   @Public()
-  @HttpCode(HttpStatus.OK)
   @Post('register')
+  @HttpCode(HttpStatus.OK)
   register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
 
+  @Get('validate')
+  @HttpCode(HttpStatus.OK)
+  validate(@Request() req) {
+    return req.user;
+  }
+
   @Get('profile')
+  @HttpCode(HttpStatus.OK)
   getProfile(@Request() req) {
     return req.user;
   }
