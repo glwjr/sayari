@@ -47,13 +47,15 @@ export default function LoginPage() {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <Image
-            alt="Sayari"
-            src="/planet.svg"
-            height={20}
-            width={20}
-            className="mx-auto h-20 w-auto"
-          />
+          <Link href="/">
+            <Image
+              alt="Sayari"
+              src="/planet.svg"
+              height={20}
+              width={20}
+              className="mx-auto h-20 w-auto"
+            />
+          </Link>
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
             Log in to your account
           </h2>

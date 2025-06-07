@@ -54,7 +54,7 @@ export class AuthService {
     );
 
     if (existingUser) {
-      throw new ConflictException();
+      throw new ConflictException('Username is already taken');
     }
 
     const user = await this.usersService.create(

@@ -26,7 +26,8 @@ class ApiClient {
   private async handleResponse<T>(response: Response): Promise<T> {
     if (response.status === 401 && typeof window !== "undefined") {
       localStorage.removeItem("access_token");
-      throw new Error("Unauthorized");
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message);
     }
 
     if (!response.ok) {
