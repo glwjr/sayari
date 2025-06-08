@@ -8,51 +8,14 @@ import React, {
   ReactNode,
 } from "react";
 import { apiClient } from "@/lib/api-client";
-
-interface User {
-  id: string;
-  username: string;
-  role?: string;
-  createdAt: string;
-}
-
-interface AuthState {
-  isAuthenticated: boolean;
-  user: User | null;
-  token: string | null;
-  loading: boolean;
-  error: string | null;
-}
-
-interface LoginCredentials {
-  username: string;
-  password: string;
-}
-
-interface RegisterData {
-  username: string;
-  password: string;
-}
-
-interface AuthContextType extends AuthState {
-  login: (
-    credentials: LoginCredentials
-  ) => Promise<{ success: boolean; error?: string }>;
-  register: (
-    userData: RegisterData
-  ) => Promise<{ success: boolean; error?: string }>;
-  logout: () => void;
-  clearError: () => void;
-  refreshUser: () => Promise<void>;
-}
-
-type AuthAction =
-  | { type: "AUTH_START" }
-  | { type: "AUTH_SUCCESS"; payload: { user: User; token: string } }
-  | { type: "AUTH_ERROR"; payload: string }
-  | { type: "LOGOUT" }
-  | { type: "CLEAR_ERROR" }
-  | { type: "SET_LOADING"; payload: boolean };
+import {
+  AuthAction,
+  AuthContextType,
+  AuthState,
+  LoginCredentials,
+  RegisterData,
+  User,
+} from "@/types/auth";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

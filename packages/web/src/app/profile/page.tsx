@@ -1,72 +1,68 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { apiClient } from "@/lib/api-client";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { LoadingProgress } from "@/components/loading-progress";
+import Profile from "@/components/profile";
+import ErrorFeedback from "@/components/error-feedback";
+import { apiClient } from "@/lib/api-client";
+import { User } from "@/types/auth";
 
-interface DashboardData {
-  message: string;
-  user: unknown;
-  timestamp: string;
+interface ProfileState {
+  user: User | null;
+  loading: boolean;
+  error: string | null;
 }
 
 export default function ProfilePage() {
   return (
     <ProtectedRoute>
-      <DashboardContent />
+      <ProfileContent />
     </ProtectedRoute>
   );
 }
 
-function DashboardContent() {
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+function ProfileContent() {
+  const [state, setState] = useState<ProfileState>({
+    user: null,
+    loading: true,
+    error: null,
+  });
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
+    const fetchUserProfile = async () => {
       try {
-        const response = await apiClient.get<DashboardData>("/auth/profile");
-        setData(response);
-      } catch (err: any) {
-        setError(err.message || "Failed to load dashboard data");
-      } finally {
-        setLoading(false);
+        setState((prev) => ({ ...prev, loading: true, error: null }));
+        const response = await apiClient.get<User>("/auth/profile");
+        setState({
+          user: response,
+          loading: false,
+          error: null,
+        });
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+        setState({
+          user: null,
+          loading: false,
+          error: "Failed to load profile data. Please try again.",
+        });
       }
     };
 
-    fetchDashboardData();
+    fetchUserProfile();
   }, []);
 
-  if (loading) {
+  if (state.loading) {
     return <LoadingProgress />;
   }
 
-  return (
-    <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div className="px-4 py-6 sm:px-0">
-        <div className="border-4 border-dashed border-gray-200 rounded-lg p-6">
-          {error ? (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              Error: {error}
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Dashboard Data</h2>
+  if (state.error) {
+    return <ErrorFeedback error={state.error} />;
+  }
 
-              {data && (
-                <div className="bg-white p-4 rounded-lg shadow">
-                  <h3 className="text-lg font-semibold mb-2">Protected Data</h3>
-                  <pre className="bg-gray-100 p-4 rounded text-sm overflow-auto">
-                    {JSON.stringify(data, null, 2)}
-                  </pre>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-    </main>
-  );
+  if (!state.user) {
+    return <ErrorFeedback error="No profile data available." />;
+  }
+
+  return <Profile user={state.user} />;
 }

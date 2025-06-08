@@ -11,5 +11,5 @@ export default function Error({
     console.error(error);
   }, [error]);
 
-  return <div className="text-sm">Something went wrong!</div>;
+  return <div className="text-sm">{error.message}</div>;
 }
