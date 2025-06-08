@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
-import ErrorFeedback from "@/components/error-feedback";
+import ErrorFeedback from "@/components/auth/error-feedback";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
