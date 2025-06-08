@@ -5,50 +5,37 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
-import { compareHash } from './auth.util';
-import { User } from 'src/users/user.entity';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { compareHash } from './auth.util';
+
+interface AuthResponse {
+  access_token: string;
+}
+
+interface JwtPayload {
+  sub: string;
+  username: string;
+}
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(userId: string): Promise<Partial<User> | null> {
-    const user = await this.usersService.findById(userId);
-    if (user) {
-      const { passwordHash, ...result } = user;
-      return result;
-    }
-    return null;
-  }
-
-  async login(
-    loginDto: LoginDto,
-  ): Promise<{ access_token: string; user: Partial<User> }> {
+  async login(loginDto: LoginDto): Promise<AuthResponse> {
     const user = await this.usersService.findByUsername(loginDto.username);
 
     if (!user || !(await compareHash(loginDto.password, user.passwordHash))) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { sub: user.id, username: user.username };
-
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-      user: {
-        id: user.id,
-        username: user.username,
-      },
-    };
+    return this.generateAuthResponse(user.id, user.username);
   }
 
-  async register(
-    registerDto: RegisterDto,
-  ): Promise<{ access_token: string; user: Partial<User> }> {
+  async register(registerDto: RegisterDto): Promise<AuthResponse> {
     const existingUser = await this.usersService.findByUsername(
       registerDto.username,
     );
@@ -62,14 +49,20 @@ export class AuthService {
       registerDto.password,
     );
 
-    const payload = { sub: user.id, username: user.username };
+    return this.generateAuthResponse(user.id, user.username);
+  }
+
+  private async generateAuthResponse(
+    userId: string,
+    username: string,
+  ): Promise<AuthResponse> {
+    const payload: JwtPayload = {
+      sub: userId,
+      username,
+    };
 
     return {
       access_token: await this.jwtService.signAsync(payload),
-      user: {
-        id: user.id,
-        username: user.username,
-      },
     };
   }
 }
