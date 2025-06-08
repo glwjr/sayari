@@ -72,7 +72,7 @@ export default function LoginPage() {
                   type="username"
                   required
                   autoComplete="username"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6"
                   value={formData.username}
                   onChange={handleChange}
                   disabled={loading}
@@ -104,7 +104,7 @@ export default function LoginPage() {
                   type="password"
                   required
                   autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6"
                   value={formData.password}
                   onChange={handleChange}
                   disabled={loading}
@@ -116,7 +116,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="cursor-pointer flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="cursor-pointer flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
               >
                 {loading ? "Logging in..." : "Log in"}
               </button>
@@ -127,7 +127,7 @@ export default function LoginPage() {
             Don&apos;t have an account?{" "}
             <Link
               href="/auth/register"
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
+              className="font-semibold text-gray-800 hover:text-gray-500"
             >
               Register now
             </Link>
