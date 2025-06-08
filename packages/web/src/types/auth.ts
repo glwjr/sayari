@@ -2,7 +2,7 @@ export interface User {
   id: string;
   username: string;
   role?: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface AuthState {

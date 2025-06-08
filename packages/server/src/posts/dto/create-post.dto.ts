@@ -1,5 +1,6 @@
 import {
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   MaxLength,
@@ -13,11 +14,10 @@ export class CreatePostDto {
   @MaxLength(200)
   title: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  @MinLength(1)
   @MaxLength(5000)
-  content: string;
+  content?: string;
 
   @IsNotEmpty()
   @IsUUID()

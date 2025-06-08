@@ -39,8 +39,8 @@ function ProfileContent() {
           loading: false,
           error: null,
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
-        console.error("Failed to fetch user profile:", error);
         setState({
           user: null,
           loading: false,

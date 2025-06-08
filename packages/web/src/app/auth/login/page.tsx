@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import ErrorFeedback from "@/components/error-feedback";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -26,7 +27,7 @@ export default function LoginPage() {
     const result = await login(formData);
 
     if (result.success) {
-      redirect("/");
+      router.back();
     }
   };
 
