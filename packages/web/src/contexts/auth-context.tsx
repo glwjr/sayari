@@ -79,6 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             type: "AUTH_SUCCESS",
             payload: { user, token },
           });
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           localStorage.removeItem("access_token");
           dispatch({ type: "AUTH_ERROR", payload: "Session expired" });
@@ -110,6 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       return { success: true };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessage = error.message || "Login failed";
       dispatch({ type: "AUTH_ERROR", payload: errorMessage });
@@ -136,6 +138,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       return { success: true };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessage = error.message || "Registration failed";
       dispatch({ type: "AUTH_ERROR", payload: errorMessage });

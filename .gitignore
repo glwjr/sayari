@@ -1,42 +1,47 @@
-**/**/.env
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production builds
+dist/
+build/
+.next/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
-/.idea
-**/**/node_modules/
-.cache
+Thumbs.db
 
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-.vercel
-.swc
+# Docker
+docker-compose.override.yml
 
-**/**/logs/**
-
-coverage
-dist
-storybook-static
-*.tsbuildinfo
-.eslintcache
-.nyc_output
-test-results/
-dump.rdb
-.tinyb
-
-.notes
-/data/
-/.devenv/
-/.direnv/
-/.pre-commit-config.yaml
-/.envrc
-/devenv.nix
-/flake.lock
-/flake.nix
-
-.crowdin.yml
-.react-email/
-
-mcp.json
+# Temporary folders
+tmp/
+temp/

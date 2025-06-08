@@ -1,25 +1,34 @@
 {
   "name": "sayari",
   "version": "0.1.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "MIT",
-  "description": "",
+  "private": "true",
   "workspaces": [
-    "packages/server",
-    "packages/web"
+    "packages/*"
   ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:web\"",
+    "dev:server": "npm run start:dev --workspace=server",
+    "dev:web": "npm run dev --workspace=web",
+    "build": "npm run build --workspaces",
+    "build:server": "npm run build --workspace=server",
+    "build:web": "npm run build --workspace=web",
+    "start": "concurrently \"npm run start:server\" \"npm run start:web\"",
+    "start:server": "npm run start --workspace=server",
+    "start:web": "npm run start --workspace=web",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "concurrently": "^9.1.2",
     "eslint": "^9",
     "typescript": "^5"
   },
-  "dependencies": {
-    "@headlessui/react": "^2.2.4",
-    "@heroicons/react": "^2.2.0"
-  }
+  "engines": {
+    "node": ">=21.7.1",
+    "npm": ">=10.9.2"
+  },
+  "author": "Gary White",
+  "license": "MIT"
 }
