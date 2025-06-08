@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/contexts/auth-context";
+import RedirectHandler from "@/components/auth/redirect-handler";
+import Shell from "@/components/shell";
 
 import "./globals.css";
 
@@ -22,7 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full bg-white">
       <body className={`${inter.className} antialiased h-full`}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <RedirectHandler />
+          <Shell>{children}</Shell>
+        </AuthProvider>
       </body>
     </html>
   );

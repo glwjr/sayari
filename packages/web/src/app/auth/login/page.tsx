@@ -12,13 +12,7 @@ export default function LoginPage() {
     username: "",
     password: "",
   });
-  const { login, loading, error, isAuthenticated, clearError } = useAuth();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      redirect("/dashboard");
-    }
-  }, [isAuthenticated]);
+  const { login, loading, error, clearError } = useAuth();
 
   useEffect(() => {
     if (error) {
@@ -32,7 +26,7 @@ export default function LoginPage() {
     const result = await login(formData);
 
     if (result.success) {
-      redirect("/dashboard");
+      redirect("/");
     }
   };
 
@@ -122,7 +116,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="cursor-pointer flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 {loading ? "Logging in..." : "Log in"}
               </button>

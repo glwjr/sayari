@@ -12,6 +12,7 @@ import { apiClient } from "@/lib/api-client";
 interface User {
   id: string;
   username: string;
+  role?: string;
   createdAt: string;
 }
 
