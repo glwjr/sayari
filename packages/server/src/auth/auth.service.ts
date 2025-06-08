@@ -4,18 +4,20 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { compareHash } from './auth.util';
 
-interface AuthResponse {
-  access_token: string;
+interface JwtPayload {
+  id: string;
+  username: string;
+  createdAt: Date;
 }
 
-interface JwtPayload {
-  sub: string;
-  username: string;
+export interface AuthResponse {
+  access_token: string;
 }
 
 @Injectable()
@@ -32,7 +34,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return this.generateAuthResponse(user.id, user.username);
+    return this.generateAuthResponse(user);
   }
 
   async register(registerDto: RegisterDto): Promise<AuthResponse> {
@@ -49,16 +51,14 @@ export class AuthService {
       registerDto.password,
     );
 
-    return this.generateAuthResponse(user.id, user.username);
+    return this.generateAuthResponse(user);
   }
 
-  private async generateAuthResponse(
-    userId: string,
-    username: string,
-  ): Promise<AuthResponse> {
+  private async generateAuthResponse(user: User): Promise<AuthResponse> {
     const payload: JwtPayload = {
-      sub: userId,
-      username,
+      id: user.id,
+      username: user.username,
+      createdAt: user.createdAt,
     };
 
     return {
