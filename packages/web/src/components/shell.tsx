@@ -18,7 +18,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/contexts/auth-context";
-import Avatar from "./avatar";
+import ShellAvatar from "./shell-avatar";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -76,7 +76,7 @@ export default function Shell({
                                 item.current
                                   ? "bg-gray-900 text-white"
                                   : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                                "rounded-md px-3 py-2 text-sm font-medium"
+                                "rounded-md px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
                               )}
                             >
                               {item.name}
@@ -90,7 +90,7 @@ export default function Shell({
                         {isAuthenticated ? (
                           <button
                             type="button"
-                            className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                            className="cursor-pointer relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
                           >
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Create post</span>
@@ -115,12 +115,12 @@ export default function Shell({
                               {isAuthenticated && user ? (
                                 <>
                                   <div>
-                                    <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                                    <MenuButton className="cursor-pointer relative flex max-w-xs items-center rounded-full text-sm hover:ring-2 hover:ring-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
                                       <span className="absolute -inset-1.5" />
                                       <span className="sr-only">
                                         Open user menu
                                       </span>
-                                      <Avatar username={user.username} />
+                                      <ShellAvatar username={user.username} />
                                     </MenuButton>
                                   </div>
                                   <MenuItems
@@ -218,12 +218,9 @@ export default function Shell({
                       <>
                         <div className="flex items-center px-5">
                           <div className="shrink-0">
-                            <Avatar username={user.username} />
+                            <ShellAvatar username={user.username} />
                           </div>
                           <div className="ml-3">
-                            <div className="text-base/5 font-medium text-white">
-                              {user.id}
-                            </div>
                             <div className="text-sm font-medium text-gray-400">
                               {user.username}
                             </div>

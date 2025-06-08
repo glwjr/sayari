@@ -1,6 +1,11 @@
+import { formatDistance } from "date-fns";
 import { User } from "@/types/auth";
 
 export default function Profile({ user }: { user: User }) {
+  const registeredDate = formatDistance(user.createdAt, new Date(), {
+    addSuffix: true,
+  });
+
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -21,7 +26,7 @@ export default function Profile({ user }: { user: User }) {
               Date Registered
             </dt>
             <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-              {user.createdAt}
+              {registeredDate[0].toUpperCase() + registeredDate.slice(1)}
             </dd>
           </div>
         </dl>
