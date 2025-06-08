@@ -28,7 +28,9 @@ export class AuthService {
   ) {}
 
   async login(loginDto: LoginDto): Promise<AuthResponse> {
-    const user = await this.usersService.findByUsername(loginDto.username);
+    const user = await this.usersService.findByUsernameWithPassword(
+      loginDto.username,
+    );
 
     if (!user || !(await compareHash(loginDto.password, user.passwordHash))) {
       throw new UnauthorizedException('Invalid credentials');

@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
 const createUserDto: CreateUserDto = {
-  firstName: 'firstName #1',
-  lastName: 'lastName #1',
+  username: 'username',
+  password: 'password',
 };
 
 describe('UsersController', () => {
@@ -76,19 +77,19 @@ describe('UsersController', () => {
 
   describe('findOne()', () => {
     it('should find a user', () => {
-      void expect(usersController.findOne(1)).resolves.toEqual({
+      void expect(usersController.findById('1')).resolves.toEqual({
         firstName: 'firstName #1',
         lastName: 'lastName #1',
         id: 1,
       });
-      expect(usersService.findOne).toHaveBeenCalled();
+      expect(usersService.findById).toHaveBeenCalled();
     });
   });
 
   describe('remove()', () => {
     it('should remove the user', () => {
-      void usersController.remove('2');
-      expect(usersService.remove).toHaveBeenCalled();
+      void usersController.delete('2');
+      expect(usersService.delete).toHaveBeenCalled();
     });
   });
 });

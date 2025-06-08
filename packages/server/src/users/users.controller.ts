@@ -10,6 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -21,6 +22,7 @@ export class UsersController {
     return this.usersService.create(username, password);
   }
 
+  @Public()
   @Get()
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
@@ -32,7 +34,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove(id);
+  delete(@Param('id') id: string): Promise<void> {
+    return this.usersService.delete(id);
   }
 }

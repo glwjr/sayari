@@ -19,6 +19,32 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
+  async findByIdWithPassword(id: string): Promise<User | null> {
+    return this.usersRepository.findOne({
+      where: { id },
+      select: {
+        id: true,
+        username: true,
+        passwordHash: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+
+  async findByUsernameWithPassword(username: string): Promise<User | null> {
+    return this.usersRepository.findOne({
+      where: { username },
+      select: {
+        id: true,
+        username: true,
+        passwordHash: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+
   async findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
@@ -31,7 +57,7 @@ export class UsersService {
     return this.usersRepository.findOneBy({ username });
   }
 
-  async remove(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.usersRepository.delete(id);
   }
 }

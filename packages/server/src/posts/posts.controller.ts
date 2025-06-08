@@ -16,6 +16,7 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from './post.entity';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('posts')
 export class PostsController {
@@ -29,6 +30,7 @@ export class PostsController {
     return this.postsService.create(createPostDto);
   }
 
+  @Public()
   @Get()
   async getAllPosts(
     @Query('page') page?: string,
@@ -48,6 +50,7 @@ export class PostsController {
     });
   }
 
+  @Public()
   @Get(':id')
   async getPostById(
     @Param('id', ParseUUIDPipe) id: string,
@@ -66,6 +69,6 @@ export class PostsController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
-    return this.postsService.remove(id);
+    return this.postsService.delete(id);
   }
 }

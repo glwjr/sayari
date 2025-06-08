@@ -9,7 +9,6 @@ import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostsService {
-  [x: string]: any;
   constructor(
     @InjectRepository(Post)
     private readonly postsRepository: Repository<Post>,
@@ -43,6 +42,12 @@ export class PostsService {
 
     return this.postsRepository.find({
       relations: ['user'],
+      select: {
+        user: {
+          id: true,
+          username: true,
+        },
+      },
       order: { createdAt: 'DESC' },
       skip: offset,
       take: limit,
@@ -50,7 +55,16 @@ export class PostsService {
   }
 
   async findById(id: string): Promise<Post | null> {
-    return this.postsRepository.findOneBy({ id });
+    return this.postsRepository.findOne({
+      where: { id },
+      relations: ['user'],
+      select: {
+        user: {
+          id: true,
+          username: true,
+        },
+      },
+    });
   }
 
   async findByUserId(userId: string): Promise<Post[]> {
@@ -73,7 +87,7 @@ export class PostsService {
     return await this.postsRepository.save(post);
   }
 
-  async remove(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.postsRepository.delete(id);
   }
 }
