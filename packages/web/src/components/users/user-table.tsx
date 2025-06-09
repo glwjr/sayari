@@ -1,4 +1,7 @@
+import Link from "next/link";
+import { formatDate } from "date-fns";
 import { User } from "@/types/auth";
+import Toggle from "../common/toggle";
 
 export default function AdminPanelUserTable({ users }: { users: User[] }) {
   return (
@@ -8,7 +11,7 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
           <h1 className="text-base font-semibold text-gray-900">Users</h1>
           <p className="mt-2 text-sm text-gray-700">
             A list of all the users in the database including their username,
-            account creation date, and role.
+            account creation date, active status, and role.
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -38,12 +41,21 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
               </th>
               <th
                 scope="col"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+              >
+                Number of Posts
+              </th>
+              <th
+                scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
                 User Role
               </th>
-              <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-0">
-                <span className="sr-only">Edit</span>
+              <th
+                scope="col"
+                className="py-3.5 pr-5 pl-3 text-right text-sm font-semibold text-gray-900 sm:pr-1"
+              >
+                Active
               </th>
             </tr>
           </thead>
@@ -54,15 +66,16 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
                   {user.username}
                 </td>
                 <td className="hidden px-3 py-4 text-sm whitespace-nowrap text-gray-500 sm:table-cell">
-                  {`${user.createdAt}`}
+                  {`${formatDate(user.createdAt, "PPPp")}`}
+                </td>
+                <td className="hidden px-3 py-4 text-sm whitespace-nowrap text-gray-500 sm:table-cell">
+                  <Link href="#">{user.postCount}</Link>
                 </td>
                 <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                   {user.role}
                 </td>
                 <td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0">
-                  <a href="#" className="text-gray-800 hover:text-gray-600">
-                    Edit<span className="sr-only">, {user.username}</span>
-                  </a>
+                  <Toggle userId={user.id} initialValue={user.isActive} />
                 </td>
               </tr>
             ))}

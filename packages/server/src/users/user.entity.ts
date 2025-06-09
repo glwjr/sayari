@@ -28,6 +28,9 @@ export class User {
   @Column({ enum: [UserRole.ADMIN, UserRole.USER], default: UserRole.USER })
   role: string;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
@@ -39,4 +42,6 @@ export class User {
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
+
+  postCount?: number;
 }

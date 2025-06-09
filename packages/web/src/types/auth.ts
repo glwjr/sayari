@@ -3,6 +3,8 @@ export interface User {
   username: string;
   role?: string;
   createdAt: Date;
+  isActive: boolean;
+  postCount?: number;
 }
 
 export interface AuthState {

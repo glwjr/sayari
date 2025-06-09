@@ -37,6 +37,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    if (!user.isActive) {
+      throw new UnauthorizedException('User account has been deactivated');
+    }
+
     return this.generateAuthResponse(user);
   }
 
@@ -49,10 +53,10 @@ export class AuthService {
       throw new ConflictException('Username is already taken');
     }
 
-    const user = await this.usersService.create(
-      registerDto.username,
-      registerDto.password,
-    );
+    const user = await this.usersService.create({
+      username: registerDto.username,
+      password: registerDto.password,
+    });
 
     return this.generateAuthResponse(user);
   }
