@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { formatDate } from "date-fns";
 import { User } from "@/types/auth";
-import Toggle from "../common/toggle";
+import Toggle from "./toggle";
 
 export default function AdminPanelUserTable({ users }: { users: User[] }) {
   return (
@@ -75,7 +75,11 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
                   {user.role}
                 </td>
                 <td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0">
-                  <Toggle userId={user.id} initialValue={user.isActive} />
+                  <Toggle
+                    userId={user.id}
+                    initialValue={user.isActive}
+                    disabled={user.role === "admin"}
+                  />
                 </td>
               </tr>
             ))}

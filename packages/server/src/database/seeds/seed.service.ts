@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/user.entity';
+import { User, UserRole } from 'src/users/user.entity';
 import { hashPassword } from 'src/auth/auth.util';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class SeedService {
     const admin = this.userRepository.create({
       username: adminUsername,
       passwordHash: await hashPassword(adminPassword),
-      role: 'admin',
+      role: UserRole.ADMIN,
     });
 
     await this.userRepository.save(admin);

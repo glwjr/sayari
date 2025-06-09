@@ -26,7 +26,7 @@ export class User {
   passwordHash: string;
 
   @Column({ enum: [UserRole.ADMIN, UserRole.USER], default: UserRole.USER })
-  role: string;
+  role: UserRole;
 
   @Column({ default: true })
   isActive: boolean;

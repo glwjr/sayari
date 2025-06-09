@@ -10,6 +10,7 @@ interface ToggleProps {
   initialValue?: boolean;
   onToggleComplete?: (newValue: boolean) => void;
   onError?: (error: Error) => void;
+  disabled?: boolean;
 }
 
 export default function Toggle({
@@ -17,6 +18,7 @@ export default function Toggle({
   initialValue = false,
   onToggleComplete,
   onError,
+  disabled,
 }: ToggleProps) {
   const [enabled, setEnabled] = useState(initialValue);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,9 +50,9 @@ export default function Toggle({
     <Switch
       checked={enabled}
       onChange={handleToggle}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       className={`group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-gray-600 focus:ring-offset-2 focus:outline-hidden data-checked:bg-gray-800 ${
-        isLoading ? "opacity-50 cursor-not-allowed" : ""
+        isLoading || disabled ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >
       <span className="sr-only">Update user&apos;s active status</span>

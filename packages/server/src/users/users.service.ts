@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { User, UserRole } from './user.entity';
 import { hashPassword } from 'src/auth/auth.util';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -69,7 +69,7 @@ export class UsersService {
   async update(id: string, updateData: UpdateUserDto): Promise<User | null> {
     const existingUser = await this.usersRepository.findOneBy({ id });
 
-    if (!existingUser) {
+    if (!existingUser || existingUser.role === UserRole.ADMIN) {
       return null;
     }
 
