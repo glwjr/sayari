@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { useAuth } from "@/contexts/auth-context";
 import { apiClient } from "@/lib/api-client";
-import { LoadingProgress } from "@/components/loading-progress";
+import { LoadingProgress } from "@/components/common/loading-progress";
 import { Post } from "@/types/post";
 
 export default function PostPage({

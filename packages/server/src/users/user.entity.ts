@@ -9,6 +9,11 @@ import {
 } from 'typeorm';
 import { Post } from 'src/posts/post.entity';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -20,7 +25,7 @@ export class User {
   @Column({ select: false })
   passwordHash: string;
 
-  @Column({ enum: ['admin', 'user'], default: 'user' })
+  @Column({ enum: [UserRole.ADMIN, UserRole.USER], default: UserRole.USER })
   role: string;
 
   @CreateDateColumn({ type: 'timestamptz' })

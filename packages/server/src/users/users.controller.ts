@@ -4,13 +4,14 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
+import { User, UserRole } from './user.entity';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -22,14 +23,15 @@ export class UsersController {
     return this.usersService.create(username, password);
   }
 
-  @Public()
   @Get()
+  @Roles(UserRole.ADMIN)
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
+  @Public()
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: string): Promise<User | null> {
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<User | null> {
     return this.usersService.findById(id);
   }
 

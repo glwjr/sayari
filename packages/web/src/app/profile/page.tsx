@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import ProtectedRoute from "@/components/auth/protected-route";
-import { LoadingProgress } from "@/components/loading-progress";
-import Profile from "@/components/profile";
-import ErrorFeedback from "@/components/error-feedback";
+import { LoadingProgress } from "@/components/common/loading-progress";
+import Profile from "@/components/users/profile";
+import ErrorFeedback from "@/components/common/error-feedback";
 import { apiClient } from "@/lib/api-client";
 import { User } from "@/types/auth";
 

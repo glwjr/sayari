@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
-import ErrorFeedback from "@/components/error-feedback";
+import ErrorFeedback from "@/components/common/error-feedback";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { apiClient } from "@/lib/api-client";
 import { Post } from "@/types/post";

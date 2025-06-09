@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthGuard } from "@/hooks/use-auth-guard";
-import { LoadingProgress } from "../loading-progress";
+import { LoadingProgress } from "../common/loading-progress";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

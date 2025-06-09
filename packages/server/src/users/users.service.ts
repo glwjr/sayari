@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { hashPassword } from 'src/auth/auth.util';
 
@@ -48,7 +48,7 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.find({ where: { role: Not('admin') } });
+    return this.usersRepository.find();
   }
 
   async findById(id: string): Promise<User | null> {

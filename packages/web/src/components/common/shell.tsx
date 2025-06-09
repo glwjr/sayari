@@ -148,14 +148,6 @@ export default function Shell({
                                       </a>
                                     </MenuItem>
                                     <MenuItem>
-                                      <a
-                                        href="/settings"
-                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                      >
-                                        Settings
-                                      </a>
-                                    </MenuItem>
-                                    <MenuItem>
                                       <button
                                         onClick={() => {
                                           close();
@@ -263,13 +255,6 @@ export default function Shell({
                             className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                           >
                             Your Profile
-                          </DisclosureButton>
-                          <DisclosureButton
-                            as="a"
-                            href="/settings"
-                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                          >
-                            Settings
                           </DisclosureButton>
                           <button
                             onClick={() => {

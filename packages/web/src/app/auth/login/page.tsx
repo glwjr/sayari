@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
-import ErrorFeedback from "@/components/error-feedback";
+import ErrorFeedback from "@/components/common/error-feedback";
 
 export default function LoginPage() {
   const router = useRouter();
