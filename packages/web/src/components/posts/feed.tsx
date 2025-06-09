@@ -11,12 +11,12 @@ export default function Feed({ posts }: { posts: Post[] }) {
           className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
         >
           <div>
-            <p className="text-sm/6 font-semibold text-gray-900">
+            <p className="text-md/6 font-semibold text-gray-900">
               <a href={`/posts/${post.id}`} className="hover:underline">
                 {post.title}
               </a>
             </p>
-            <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
+            <div className="mt-1 flex items-center gap-x-2 text-sm/5 text-gray-500">
               <p>
                 <a href={`/users/${post.user.id}`} className="hover:underline">
                   Posted by {post.user.username}
@@ -37,7 +37,7 @@ export default function Feed({ posts }: { posts: Post[] }) {
                   className="size-5 text-gray-400"
                 />
               </dt>
-              <dd className="text-xs/5 text-gray-900">100</dd>
+              <dd className="text-sm/5 text-gray-900">100</dd>
             </div>
           </dl>
         </li>
