@@ -9,6 +9,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/20/solid";
 import { useAuth } from "@/contexts/auth-context";
+import { apiClient } from "@/lib/api-client";
 import { LoadingProgress } from "@/components/loading-progress";
 import { Post } from "@/types/post";
 
@@ -32,13 +33,7 @@ export default function PostPage({
     async function fetchPost() {
       try {
         const postId = (await params).id;
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/posts/${postId}`
-        );
-
-        if (!res.ok) throw new Error("Failed to fetch post with that ID");
-
-        const post: Post = await res.json();
+        const post = await apiClient.get<Post>(`/posts/${postId}`);
 
         setState({ post, isLoading: false, error: null });
       } catch (error) {

@@ -14,6 +14,7 @@ interface JwtPayload {
   id: string;
   username: string;
   createdAt: Date;
+  role: string;
 }
 
 export interface AuthResponse {
@@ -61,6 +62,7 @@ export class AuthService {
       id: user.id,
       username: user.username,
       createdAt: user.createdAt,
+      role: user.role,
     };
 
     return {

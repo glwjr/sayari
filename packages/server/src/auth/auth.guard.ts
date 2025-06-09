@@ -3,12 +3,14 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { jwtConstants } from './constants';
 import { IS_PUBLIC_KEY } from './decorators/public.decorator';
+import { ROLES_KEY } from './decorators/roles.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -24,7 +26,6 @@ export class AuthGuard implements CanActivate {
     ]);
 
     if (isPublic) {
-      // 💡 See this condition
       return true;
     }
 
@@ -39,12 +40,36 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
+
+      // Assign the payload to the request object
       request['user'] = payload;
-    } catch {
+
+      // Check roles if specified
+      const requiredRoles = this.reflector.getAllAndOverride<string[]>(
+        ROLES_KEY,
+        [context.getHandler(), context.getClass()],
+      );
+
+      if (requiredRoles) {
+        const userRole = payload.role; // Assuming role is in the JWT payload
+
+        if (!userRole) {
+          throw new ForbiddenException('User role not found');
+        }
+
+        const hasRole = requiredRoles.includes(userRole);
+
+        if (!hasRole) {
+          throw new ForbiddenException('Insufficient permissions');
+        }
+      }
+    } catch (error) {
+      if (error instanceof ForbiddenException) {
+        throw error; // Re-throw ForbiddenException as is
+      }
       throw new UnauthorizedException();
     }
+
     return true;
   }
 

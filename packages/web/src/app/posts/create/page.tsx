@@ -5,12 +5,22 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import ErrorFeedback from "@/components/error-feedback";
+import ProtectedRoute from "@/components/auth/protected-route";
+import { apiClient } from "@/lib/api-client";
 import { Post } from "@/types/post";
 
-export default function CreatePostForm() {
+export default function CreatePostPage() {
+  return (
+    <ProtectedRoute>
+      <CreatePostPageContent />
+    </ProtectedRoute>
+  );
+}
+
+function CreatePostPageContent() {
   const router = useRouter();
   const [error, setError] = useState("");
-  const { user, token, clearError } = useAuth();
+  const { user, clearError } = useAuth();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,18 +33,7 @@ export default function CreatePostForm() {
         userId: user?.id,
       };
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
-
-      if (!res.ok) throw new Error("Failed to create new posts");
-
-      const post: Post = await res.json();
+      const post = await apiClient.post<Post>(`/posts`, body);
 
       router.push(`/posts/${post.id}`);
     } catch (error) {

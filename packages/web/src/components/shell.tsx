@@ -127,6 +127,18 @@ export default function Shell({
                                     transition
                                     className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                                   >
+                                    {user.role === "admin" ? (
+                                      <MenuItem>
+                                        <a
+                                          href="/admin"
+                                          className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
+                                        >
+                                          Admin Panel
+                                        </a>
+                                      </MenuItem>
+                                    ) : (
+                                      false
+                                    )}
                                     <MenuItem>
                                       <a
                                         href="/profile"
@@ -227,6 +239,17 @@ export default function Shell({
                           </div>
                         </div>
                         <div className="mt-3 space-y-1 px-2">
+                          {user.role === "admin" ? (
+                            <DisclosureButton
+                              as="a"
+                              href="/admin"
+                              className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                            >
+                              Admin Panel
+                            </DisclosureButton>
+                          ) : (
+                            false
+                          )}
                           <DisclosureButton
                             as="a"
                             href="/create"

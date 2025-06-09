@@ -20,6 +20,9 @@ export class User {
   @Column({ select: false })
   passwordHash: string;
 
+  @Column({ enum: ['admin', 'user'], default: 'user' })
+  role: string;
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
