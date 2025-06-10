@@ -13,7 +13,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Sayari",
-  description: "",
+  description:
+    "A toy social media app built with NestJS and Next.js for learning and experimentation",
 };
 
 export default function RootLayout({

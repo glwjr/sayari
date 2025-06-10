@@ -19,12 +19,10 @@ export default function ProtectedRoute({
     redirectTo: fallbackPath,
   });
 
-  // Show loading while checking authentication
   if (loading) {
     return <LoadingProgress />;
   }
 
-  // Don't render anything while redirecting
   if (shouldRedirect || !isAuthorized) {
     return null;
   }

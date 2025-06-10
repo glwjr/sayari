@@ -4,15 +4,14 @@ import { useEffect, useState } from "react";
 import { formatDate } from "date-fns";
 import {
   CalendarIcon,
-  ChatBubbleBottomCenterTextIcon,
   PencilSquareIcon,
   UserCircleIcon,
 } from "@heroicons/react/20/solid";
 import { useAuth } from "@/contexts/auth-context";
-import { apiClient } from "@/lib/api-client";
-import { LoadingProgress } from "@/components/common/loading-progress";
-import { Post } from "@/types/post";
 import CommentFeed from "@/components/comments/feed";
+import { LoadingProgress } from "@/components/common/loading-progress";
+import { apiClient } from "@/lib/api-client";
+import { Post } from "@/types/post";
 
 export default function PostPage({
   params,
@@ -87,7 +86,7 @@ export default function PostPage({
         {isAuthenticated ? (
           <div className="mt-5 flex lg:mt-0 lg:ml-4">
             {state.post?.user.id === user?.id ? (
-              <span className="mr-3">
+              <span>
                 <button
                   onClick={() => {
                     window.location.href = `/posts/${state.post?.id}/edit`;
@@ -105,19 +104,6 @@ export default function PostPage({
             ) : (
               false
             )}
-
-            <span>
-              <button
-                type="button"
-                className="cursor-pointer inline-flex items-center rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
-              >
-                <ChatBubbleBottomCenterTextIcon
-                  aria-hidden="true"
-                  className="mr-1.5 -ml-0.5 size-5"
-                />
-                Comment
-              </button>
-            </span>
           </div>
         ) : (
           false

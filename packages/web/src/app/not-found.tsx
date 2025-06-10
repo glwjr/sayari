@@ -1,3 +1,11 @@
+"use client";
+
+import ErrorFeedback from "@/components/common/error-feedback";
+
 export default function NotFound() {
-  return <div className="text-sm">Page not found :(</div>;
+  return (
+    <main>
+      <ErrorFeedback error={`Page not found :(`} />
+    </main>
+  );
 }

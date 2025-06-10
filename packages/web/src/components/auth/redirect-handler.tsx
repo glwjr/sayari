@@ -6,7 +6,6 @@ import { useAuth } from "@/contexts/auth-context";
 
 const PROTECTED_ROUTES = ["/profile", "/settings", "/admin"];
 
-// List of routes that should redirect authenticated users
 const AUTH_ROUTES = ["/auth/login", "/auth/register"];
 
 export default function RedirectHandler() {
@@ -14,7 +13,7 @@ export default function RedirectHandler() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (loading) return; // Wait for auth to load
+    if (loading) return;
 
     const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
       pathname.startsWith(route)
