@@ -63,13 +63,15 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
             {users.map((user) => (
               <tr key={user.id}>
                 <td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0">
-                  {user.username}
+                  <Link href={`users/${user.id}`} className="hover:underline">
+                    {user.username}
+                  </Link>
                 </td>
                 <td className="hidden px-3 py-4 text-sm whitespace-nowrap text-gray-500 sm:table-cell">
                   {`${formatDate(user.createdAt, "PPPp")}`}
                 </td>
                 <td className="hidden px-3 py-4 text-sm whitespace-nowrap text-gray-500 sm:table-cell">
-                  <Link href="#">{user.postCount}</Link>
+                  {user.postCount}
                 </td>
                 <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                   {user.role}

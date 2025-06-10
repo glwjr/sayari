@@ -2,7 +2,13 @@ import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { formatDate } from "date-fns";
 import { Post } from "@/types/post";
 
-export default function Feed({ type, posts }: { type: string; posts: Post[] }) {
+export default function PostFeed({
+  type,
+  posts,
+}: {
+  type: string;
+  posts: Post[];
+}) {
   return (
     <>
       <div className="px-4 sm:px-0">
@@ -21,7 +27,7 @@ export default function Feed({ type, posts }: { type: string; posts: Post[] }) {
                     {post.title}
                   </a>
                 </p>
-                <div className="mt-1 flex items-center gap-x-2 text-sm/5 text-gray-500">
+                <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                   <p>
                     <a
                       href={`/users/${post.user.id}`}
@@ -45,7 +51,7 @@ export default function Feed({ type, posts }: { type: string; posts: Post[] }) {
                       className="size-5 text-gray-400"
                     />
                   </dt>
-                  <dd className="text-sm/5 text-gray-900">
+                  <dd className="text-xs/5 text-gray-900">
                     {post.commentCount}
                   </dd>
                 </div>

@@ -1,4 +1,4 @@
-import Feed from "@/components/posts/feed";
+import PostFeed from "@/components/posts/post-feed";
 import { Post } from "@/types/post";
 
 async function fetchPosts() {
@@ -20,7 +20,7 @@ export default async function HomeFeed() {
 
   return (
     <div>
-      <Feed type="Home" posts={posts} />
+      <PostFeed type="Home" posts={posts} />
     </div>
   );
 }

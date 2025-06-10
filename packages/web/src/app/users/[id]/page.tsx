@@ -1,5 +1,5 @@
 import Profile from "@/components/users/profile";
-import Feed from "@/components/posts/feed";
+import PostFeed from "@/components/posts/post-feed";
 import { User } from "@/types/auth";
 
 async function fetchUserProfile(userId: string) {
@@ -34,7 +34,7 @@ export default async function UserProfilePage({
     <main>
       <Profile user={user} />
       <div className="mt-6">
-        <Feed type={`${user.username}'s Post`} posts={posts} />
+        <PostFeed type={`${user.username}'s Post`} posts={posts} />
       </div>
     </main>
   );

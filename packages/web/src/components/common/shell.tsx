@@ -40,7 +40,6 @@ export default function Shell({
   const navigation = [
     { name: "Feed", href: "/", current: pathname.endsWith("/") },
     { name: "Hot", href: "/hot", current: pathname.endsWith("/hot") },
-    { name: "New", href: "/new", current: pathname.endsWith("/new") },
   ];
 
   return (
