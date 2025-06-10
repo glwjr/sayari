@@ -7,10 +7,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { Comment } from "@/types/comment";
 import CommentAvatar from "./avatar";
 import { apiClient } from "@/lib/api-client";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import ErrorFeedback from "../common/error-feedback";
 
 function formatCommentDate(date: Date) {
   const formattedDate = formatDistance(date, new Date(), {
@@ -51,6 +48,16 @@ export default function CommentFeed({
     [content, user, postId, router]
   );
 
+  const handleDelete = async (commentId: string) => {
+    if (!user) return;
+    try {
+      await apiClient.delete(`/posts/${postId}/comments/${commentId}`);
+      router.refresh();
+    } catch (error) {
+      setError((error as Error).message);
+    }
+  };
+
   useEffect(() => {
     if (error) {
       const timer = setTimeout(() => setError(""), 5000);
@@ -88,24 +95,19 @@ export default function CommentFeed({
                 Submit
               </button>
             </div>
-            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           </form>
         </div>
       )}
 
+      {error && (
+        <div className="my-6">
+          <ErrorFeedback error={error} />
+        </div>
+      )}
+
       <ul role="list" className="space-y-6">
-        {comments.map((comment, commentIndex) => (
+        {comments.map((comment) => (
           <li key={comment.id} className="relative flex gap-x-4">
-            <div
-              className={classNames(
-                commentIndex === comment.content.length - 1
-                  ? "h-6"
-                  : "-bottom-6",
-                "absolute top-0 left-0 flex w-6 justify-center"
-              )}
-            >
-              <div className="w-px bg-gray-200" />
-            </div>
             <div className="relative">
               <CommentAvatar username={comment.user.username} />
             </div>
@@ -117,8 +119,27 @@ export default function CommentFeed({
                   </span>{" "}
                   commented
                 </div>
-                <span className="flex-none py-0.5 text-xs/5 text-gray-500">
+                <span className="flex items-center gap-x-2 py-0.5 text-xs/5 text-gray-500">
                   {formatCommentDate(comment.createdAt)}
+                  {isAuthenticated &&
+                  (user?.id === comment.user.id || user?.role === "admin") ? (
+                    <>
+                      <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
+                        <circle r={1} cx={1} cy={1} />
+                      </svg>
+                      <a
+                        onClick={() => {
+                          handleDelete(comment.id);
+                          router.refresh();
+                        }}
+                        className="cursor-pointer hover:underline"
+                      >
+                        Delete
+                      </a>
+                    </>
+                  ) : (
+                    false
+                  )}
                 </span>
               </div>
               <p className="text-sm/6 text-gray-500">{comment.content}</p>

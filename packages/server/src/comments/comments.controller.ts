@@ -8,6 +8,8 @@ import {
   ParseUUIDPipe,
   Post as HttpPost,
   ValidationPipe,
+  Delete,
+  Request,
 } from '@nestjs/common';
 import { Comment } from './comment.entity';
 import { CommentsService } from './comments.service';
@@ -20,7 +22,7 @@ export class CommentsController {
 
   @HttpPost()
   @HttpCode(HttpStatus.CREATED)
-  async createComment(
+  async create(
     @Body(ValidationPipe) createCommentDto: CreateCommentDto,
   ): Promise<Comment> {
     return this.commentsService.create(createCommentDto);
@@ -32,5 +34,16 @@ export class CommentsController {
     @Param('postId', ParseUUIDPipe) postId: string,
   ): Promise<Comment[]> {
     return this.commentsService.findByPostId(postId);
+  }
+
+  @Delete(':commentId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async delete(
+    @Param('commentId', ParseUUIDPipe) commentId: string,
+    @Request() req: { user: { id: string } },
+  ): Promise<void> {
+    const id = commentId;
+    const userId = req.user.id;
+    return this.commentsService.delete({ id, userId });
   }
 }

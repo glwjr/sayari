@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Comment } from './comment.entity';
-import { User } from 'src/users/user.entity';
+import { User, UserRole } from 'src/users/user.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { Post } from 'src/posts/post.entity';
@@ -62,13 +62,6 @@ export class CommentsService {
       where: {
         post: { id: postId },
       },
-      // relations: ['user'],
-      // select: {
-      //   user: {
-      //     id: true,
-      //     username: true,
-      //   },
-      // },
     });
   }
 
@@ -87,7 +80,27 @@ export class CommentsService {
     return await this.commentsRepository.save(comment);
   }
 
-  async delete(id: string): Promise<void> {
+  async delete({ id, userId }: { id: string; userId: string }): Promise<void> {
+    const comment = await this.findById(id);
+
+    if (!comment) {
+      throw new NotFoundException(`Comment with ID ${id} not found`);
+    }
+
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      select: {
+        id: true,
+        role: true,
+      },
+    });
+
+    if (!user || (comment.user.id !== userId && user.role !== UserRole.ADMIN)) {
+      throw new NotFoundException(
+        `You do not have permission to delete this comment`,
+      );
+    }
+
     await this.commentsRepository.delete(id);
   }
 }

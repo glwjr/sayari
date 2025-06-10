@@ -32,13 +32,13 @@ export class AuthController {
 
   @Get('validate')
   @HttpCode(HttpStatus.OK)
-  validate(@Request() req) {
+  validate(@Request() req: { user: any }): any {
     return req.user;
   }
 
   @Get('profile')
   @HttpCode(HttpStatus.OK)
-  getProfile(@Request() req) {
+  getProfile(@Request() req: { user: any }): any {
     return req.user;
   }
 }
