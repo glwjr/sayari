@@ -56,8 +56,8 @@ export default function PostPage({
       </main>
     );
 
-  if (state.error) {
-    throw new Error(state.error);
+  if (state.error || !state.post) {
+    throw new Error(state.error ?? "Unknown error");
   }
 
   return (
@@ -107,18 +107,16 @@ export default function PostPage({
             )}
 
             <span>
-              <a href="#submit-comment">
-                <button
-                  type="button"
-                  className="cursor-pointer inline-flex items-center rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
-                >
-                  <ChatBubbleBottomCenterTextIcon
-                    aria-hidden="true"
-                    className="mr-1.5 -ml-0.5 size-5"
-                  />
-                  Comment
-                </button>
-              </a>
+              <button
+                type="button"
+                className="cursor-pointer inline-flex items-center rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+              >
+                <ChatBubbleBottomCenterTextIcon
+                  aria-hidden="true"
+                  className="mr-1.5 -ml-0.5 size-5"
+                />
+                Comment
+              </button>
             </span>
           </div>
         ) : (
@@ -136,7 +134,7 @@ export default function PostPage({
         false
       )}
       <div className="mt-8">
-        <CommentFeed />
+        <CommentFeed postId={state.post.id} comments={state.post.comments} />
       </div>
     </main>
   );

@@ -40,28 +40,27 @@ export class PostsService {
     const { page, limit } = options;
     const offset = (page - 1) * limit;
 
-    return this.postsRepository.find({
-      relations: ['user'],
-      select: {
-        user: {
-          id: true,
-          username: true,
-        },
-      },
-      order: { createdAt: 'DESC' },
-      skip: offset,
-      take: limit,
-    });
+    const posts = await this.postsRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoin('post.comments', 'comment')
+      .addSelect(['user.id', 'user.username'])
+      .loadRelationCountAndMap('post.commentCount', 'post.comments')
+      .orderBy('post.createdAt', 'DESC')
+      .skip(offset)
+      .take(limit)
+      .getMany();
+
+    return posts;
   }
 
   async findById(id: string): Promise<Post | null> {
     return this.postsRepository.findOne({
       where: { id },
-      relations: ['user'],
-      select: {
-        user: {
-          id: true,
-          username: true,
+      relations: ['user', 'comments', 'comments.user'],
+      order: {
+        comments: {
+          createdAt: 'DESC',
         },
       },
     });
@@ -72,6 +71,7 @@ export class PostsService {
       where: {
         user: { id: userId },
       },
+      relations: ['comments'],
     });
   }
 

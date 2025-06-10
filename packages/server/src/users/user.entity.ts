@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Post } from 'src/posts/post.entity';
+import { Comment } from 'src/comments/comment.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -44,4 +45,7 @@ export class User {
   posts: Post[];
 
   postCount?: number;
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 }

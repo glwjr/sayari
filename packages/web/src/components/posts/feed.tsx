@@ -45,7 +45,9 @@ export default function Feed({ type, posts }: { type: string; posts: Post[] }) {
                       className="size-5 text-gray-400"
                     />
                   </dt>
-                  <dd className="text-sm/5 text-gray-900">100</dd>
+                  <dd className="text-sm/5 text-gray-900">
+                    {post.commentCount}
+                  </dd>
                 </div>
               </dl>
             </li>

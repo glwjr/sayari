@@ -1,4 +1,5 @@
 import { User } from "./auth";
+import { Comment } from "./comment";
 
 export interface Post {
   id: string;
@@ -7,4 +8,6 @@ export interface Post {
   createdAt: Date;
   updatedAt: Date;
   user: User;
+  comments: Comment[];
+  commentCount?: number;
 }
