@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Post } from './post.entity';
-import { User } from 'src/users/user.entity';
+import { User, UserRole } from 'src/users/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -103,7 +103,27 @@ export class PostsService {
     return await this.postsRepository.save(post);
   }
 
-  async delete(id: string): Promise<void> {
+  async delete({ id, userId }: { id: string; userId: string }): Promise<void> {
+    const post = await this.findById(id);
+
+    if (!post) {
+      throw new NotFoundException(`Post with ID ${id} not found`);
+    }
+
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      select: {
+        id: true,
+        role: true,
+      },
+    });
+
+    if (!user || (post.user.id !== userId && user.role !== UserRole.ADMIN)) {
+      throw new NotFoundException(
+        `You do not have permission to delete this post`,
+      );
+    }
+
     await this.postsRepository.delete(id);
   }
 }

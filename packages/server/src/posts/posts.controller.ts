@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post as HttpPost,
+  Request,
   Query,
   ValidationPipe,
 } from '@nestjs/common';
@@ -71,7 +72,12 @@ export class PostsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
-    return this.postsService.delete(id);
+  async delete(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: { user: { id: string } },
+  ): Promise<void> {
+    const userId = req.user.id;
+
+    return this.postsService.delete({ id, userId });
   }
 }
