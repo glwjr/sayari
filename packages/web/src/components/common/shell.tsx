@@ -88,7 +88,7 @@ export default function Shell({
                     <div className="hidden md:block">
                       <div className="ml-4 flex items-center md:ml-6">
                         {isAuthenticated ? (
-                          <a
+                          <Link
                             href="/posts/create"
                             className="cursor-pointer relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
                           >
@@ -98,7 +98,7 @@ export default function Shell({
                               aria-hidden="true"
                               className="size-6"
                             />
-                          </a>
+                          </Link>
                         ) : (
                           <a
                             href="/auth/login"
@@ -287,7 +287,7 @@ export default function Shell({
 
         <main className="-mt-32">
           <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-            <div className="rounded-lg bg-white px-5 py-6 shadow-sm sm:px-6">
+            <div className="rounded-lg bg-white px-9 py-10 shadow-sm sm:px-10">
               {children}
             </div>
           </div>

@@ -64,7 +64,10 @@ function EditPostPageContent({ params }: { params: Promise<{ id: string }> }) {
         userId: user?.id,
       };
 
-      const post = await apiClient.post<Post>(`/posts`, body);
+      const post = await apiClient.patch<Post>(
+        `/posts/${(await params).id}`,
+        body
+      );
 
       router.push(`/posts/${post.id}`);
     } catch (error) {

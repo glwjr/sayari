@@ -62,7 +62,16 @@ function AdminHomeContent() {
 
   return (
     <main>
-      <AdminPanelUserTable users={state.users} />
+      <div>
+        <div className="px-4 sm:px-0">
+          <h3 className="text-2xl/7 font-semibold text-gray-900">
+            Admin Panel
+          </h3>
+        </div>
+        <div className="mt-6 pt-6 border-t border-gray-100">
+          <AdminPanelUserTable users={state.users} />
+        </div>
+      </div>
     </main>
   );
 }

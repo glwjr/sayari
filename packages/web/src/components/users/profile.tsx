@@ -9,9 +9,7 @@ export default function Profile({ user }: { user: User }) {
   return (
     <div>
       <div className="px-4 sm:px-0">
-        <h3 className="text-base/7 font-semibold text-gray-900">
-          User Profile
-        </h3>
+        <h3 className="text-2xl/7 font-semibold text-gray-900">User Profile</h3>
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
