@@ -66,13 +66,29 @@ export class PostsService {
     });
   }
 
-  async findByUserId(userId: string): Promise<Post[]> {
-    return this.postsRepository.find({
-      where: {
-        user: { id: userId },
-      },
-      relations: ['comments'],
-    });
+  async findByUserId({
+    userId,
+    options,
+  }: {
+    userId: string;
+    options: PaginationDto;
+  }): Promise<Post[]> {
+    const { page, limit } = options;
+    const offset = (page - 1) * limit;
+
+    const posts = await this.postsRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoin('post.comments', 'comment')
+      .addSelect(['user.id', 'user.username'])
+      .loadRelationCountAndMap('post.commentCount', 'post.comments')
+      .where('user.id = :userId', { userId })
+      .orderBy('post.createdAt', 'DESC')
+      .skip(offset)
+      .take(limit)
+      .getMany();
+
+    return posts;
   }
 
   async update(id: string, updatePostDto: UpdatePostDto): Promise<Post> {

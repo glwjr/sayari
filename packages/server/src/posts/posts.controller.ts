@@ -41,7 +41,10 @@ export class PostsController {
     const limitNumber = limit ? parseInt(limit, 10) : 10;
 
     if (userId) {
-      return this.postsService.findByUserId(userId);
+      return this.postsService.findByUserId({
+        userId,
+        options: { page: pageNumber, limit: limitNumber },
+      });
     }
 
     return this.postsService.findAll({

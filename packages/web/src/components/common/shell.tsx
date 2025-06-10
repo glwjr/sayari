@@ -141,7 +141,7 @@ export default function Shell({
                                     )}
                                     <MenuItem>
                                       <a
-                                        href="/profile"
+                                        href={`/users/${user.id}`}
                                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
                                       >
                                         Your Profile
@@ -251,7 +251,7 @@ export default function Shell({
                           </DisclosureButton>
                           <DisclosureButton
                             as="a"
-                            href="/profile"
+                            href={`/users/${user.id}`}
                             className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                           >
                             Your Profile

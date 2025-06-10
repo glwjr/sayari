@@ -1,17 +1,24 @@
 import Profile from "@/components/users/profile";
+import Feed from "@/components/posts/feed";
 import { User } from "@/types/auth";
 
-async function fetchUser(id: string) {
+async function fetchUserProfile(userId: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const [profileRes, postsRes] = await Promise.all([
+      fetch(`${apiUrl}/users/${userId}`),
+      fetch(`${apiUrl}/posts?userId=${userId}`),
+    ]);
 
-    if (!res.ok) throw new Error("Failed to fetch user");
+    if (!profileRes.ok) throw new Error("Failed to fetch user profile");
+    if (!postsRes.ok) throw new Error("Failed to fetch user posts");
 
-    const data: User = await res.json();
+    const user: User = await profileRes.json();
+    const posts = await postsRes.json();
 
-    return data;
-  } catch (error) {
-    throw new Error(error instanceof Error ? error.message : "Unknown error");
+    return { user, posts };
+  } catch (err) {
+    throw new Error(err instanceof Error ? err.message : "Unknown error");
   }
 }
 
@@ -21,11 +28,14 @@ export default async function UserProfilePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const user = await fetchUser(id as string);
+  const { user, posts } = await fetchUserProfile(id);
 
   return (
     <main>
       <Profile user={user} />
+      <div className="mt-6">
+        <Feed type={`${user.username}'s Post`} posts={posts} />
+      </div>
     </main>
   );
 }
