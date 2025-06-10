@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import ErrorFeedback from "@/components/common/error-feedback";
 
 export default function Error({
   error,
 }: {
   error: Error & { digest?: string };
 }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
-  return <div className="text-sm">{error.message}</div>;
+  return (
+    <main>
+      <ErrorFeedback error={error.message} />
+    </main>
+  );
 }

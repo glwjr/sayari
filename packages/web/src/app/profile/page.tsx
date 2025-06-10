@@ -53,16 +53,24 @@ function ProfileContent() {
   }, []);
 
   if (state.loading) {
-    return <LoadingProgress />;
-  }
-
-  if (state.error) {
-    return <ErrorFeedback error={state.error} />;
+    return (
+      <main>
+        <LoadingProgress />
+      </main>
+    );
   }
 
   if (!state.user) {
-    return <ErrorFeedback error="No profile data available." />;
+    return (
+      <main>
+        <ErrorFeedback error="No profile data available." />
+      </main>
+    );
   }
 
-  return <Profile user={state.user} />;
+  return (
+    <main>
+      <Profile user={state.user} />
+    </main>
+  );
 }

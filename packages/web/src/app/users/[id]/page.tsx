@@ -11,7 +11,7 @@ async function fetchUser(id: string) {
 
     return data;
   } catch (error) {
-    throw new Error(`An error has occured: ${error}`);
+    throw new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 
@@ -23,5 +23,9 @@ export default async function UserProfilePage({
   const { id } = await params;
   const user = await fetchUser(id as string);
 
-  return <Profile user={user} />;
+  return (
+    <main>
+      <Profile user={user} />
+    </main>
+  );
 }

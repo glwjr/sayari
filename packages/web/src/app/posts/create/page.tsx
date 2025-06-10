@@ -57,8 +57,8 @@ function CreatePostPageContent() {
             Create a new post
           </h2>
 
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-full">
+          <div className="mt-6 border-t border-gray-100 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="mt-6 sm:col-span-full">
               <label
                 htmlFor="title"
                 className="block text-sm/6 font-medium text-gray-900"

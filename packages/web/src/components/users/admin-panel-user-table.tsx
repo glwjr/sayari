@@ -5,10 +5,10 @@ import Toggle from "./toggle";
 
 export default function AdminPanelUserTable({ users }: { users: User[] }) {
   return (
-    <div>
+    <div className="px-4 sm:px-0">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold text-gray-900">Users</h1>
+          <h1 className="text-base/7 font-semibold text-gray-900">Users</h1>
           <p className="mt-2 text-sm text-gray-700">
             A list of all the users in the database including their username,
             account creation date, active status, and role.
@@ -23,8 +23,8 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
           </button>
         </div>
       </div>
-      <div className="-mx-4 mt-8 sm:-mx-0">
-        <table className="min-w-full divide-y divide-gray-300">
+      <div className="mt-8">
+        <table className="min-w-full -mx-0 divide-y divide-gray-100">
           <thead>
             <tr>
               <th
@@ -59,7 +59,7 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
+          <tbody className="divide-y divide-gray-100 bg-white">
             {users.map((user) => (
               <tr key={user.id}>
                 <td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0">

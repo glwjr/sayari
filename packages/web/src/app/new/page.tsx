@@ -15,12 +15,12 @@ async function fetchPosts() {
   }
 }
 
-export default async function HomeFeed() {
+export default async function NewFeed() {
   const posts = await fetchPosts();
 
   return (
     <div>
-      <Feed type="Home" posts={posts} />
+      <Feed type="New" posts={posts} />
     </div>
   );
 }

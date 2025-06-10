@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AdminPanelUserTable from "@/components/users/user-table";
+import AdminPanelUserTable from "@/components/users/admin-panel-user-table";
 import ProtectedRoute from "@/components/auth/protected-route";
-import { apiClient } from "@/lib/api-client";
-import { User } from "@/types/auth";
 import { LoadingProgress } from "@/components/common/loading-progress";
 import ErrorFeedback from "@/components/common/error-feedback";
+import { apiClient } from "@/lib/api-client";
+import { User } from "@/types/auth";
 
 export default function AdminHomePage() {
   return (
@@ -45,16 +45,24 @@ function AdminHomeContent() {
   }, []);
 
   if (state.isLoading) {
-    return <LoadingProgress />;
+    return (
+      <main>
+        <LoadingProgress />
+      </main>
+    );
   }
 
   if (state.error) {
-    return <ErrorFeedback error={state.error} />;
+    return (
+      <main>
+        <ErrorFeedback error={state.error} />
+      </main>
+    );
   }
 
   return (
-    <>
+    <main>
       <AdminPanelUserTable users={state.users} />
-    </>
+    </main>
   );
 }
