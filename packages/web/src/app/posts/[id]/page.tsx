@@ -89,6 +89,9 @@ export default function PostPage({
             {state.post?.user.id === user?.id ? (
               <span className="mr-3">
                 <button
+                  onClick={() => {
+                    window.location.href = `/posts/${state.post?.id}/edit`;
+                  }}
                   type="button"
                   className="cursor-pointer inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-100"
                 >
