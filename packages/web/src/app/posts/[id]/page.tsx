@@ -12,6 +12,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { apiClient } from "@/lib/api-client";
 import { LoadingProgress } from "@/components/common/loading-progress";
 import { Post } from "@/types/post";
+import CommentFeed from "@/components/comments/feed";
 
 export default function PostPage({
   params,
@@ -103,16 +104,18 @@ export default function PostPage({
             )}
 
             <span>
-              <button
-                type="button"
-                className="cursor-pointer inline-flex items-center rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
-              >
-                <ChatBubbleBottomCenterTextIcon
-                  aria-hidden="true"
-                  className="mr-1.5 -ml-0.5 size-5"
-                />
-                Comment
-              </button>
+              <a href="#submit-comment">
+                <button
+                  type="button"
+                  className="cursor-pointer inline-flex items-center rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                >
+                  <ChatBubbleBottomCenterTextIcon
+                    aria-hidden="true"
+                    className="mr-1.5 -ml-0.5 size-5"
+                  />
+                  Comment
+                </button>
+              </a>
             </span>
           </div>
         ) : (
@@ -129,6 +132,9 @@ export default function PostPage({
       ) : (
         false
       )}
+      <div className="mt-8">
+        <CommentFeed />
+      </div>
     </main>
   );
 }
