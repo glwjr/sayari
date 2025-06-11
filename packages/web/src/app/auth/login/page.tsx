@@ -33,6 +33,7 @@ export default function LoginPage() {
 
     if (result.success) {
       router.back();
+      router.refresh();
     }
   };
 
