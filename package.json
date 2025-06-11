@@ -25,10 +25,6 @@
     "eslint": "^9",
     "typescript": "^5"
   },
-  "engines": {
-    "node": ">=21.7.1",
-    "npm": ">=10.9.2"
-  },
   "author": "Gary White",
   "license": "MIT"
 }
