@@ -55,6 +55,21 @@ export class PostsController {
   }
 
   @Public()
+  @Get('hot')
+  async getHotPosts(
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ): Promise<Post[]> {
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    const limitNumber = limit ? parseInt(limit, 10) : 10;
+
+    return this.postsService.findHotPosts({
+      page: pageNumber,
+      limit: limitNumber,
+    });
+  }
+
+  @Public()
   @Get(':id')
   async getPostById(
     @Param('id', ParseUUIDPipe) id: string,

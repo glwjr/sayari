@@ -1,9 +1,9 @@
 import PostFeed from "@/components/posts/post-feed";
 import { Post } from "@/types/post";
 
-async function fetchPosts() {
+async function fetchHotPosts() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/hot`);
 
     if (!res.ok) throw new Error("Failed to fetch posts");
 
@@ -16,7 +16,7 @@ async function fetchPosts() {
 }
 
 export default async function HotFeed() {
-  const posts = await fetchPosts();
+  const posts = await fetchHotPosts();
 
   return (
     <div>

@@ -54,6 +54,30 @@ export class PostsService {
     return posts;
   }
 
+  async findHotPosts(options: PaginationDto): Promise<Post[]> {
+    const { page, limit } = options;
+    const offset = (page - 1) * limit;
+
+    const qPosts = await this.postsRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoin('post.comments', 'comment')
+      .addSelect(['user.id', 'user.username'])
+      .loadRelationCountAndMap('post.commentCount', 'post.comments')
+      .orderBy('post.createdAt', 'DESC')
+      .skip(offset)
+      .take(limit)
+      .getMany();
+
+    const posts = qPosts.sort((a, b) => {
+      const aCount = a.commentCount ?? 0;
+      const bCount = b.commentCount ?? 0;
+      return bCount - aCount;
+    });
+
+    return posts;
+  }
+
   async findById(id: string): Promise<Post | null> {
     return this.postsRepository.findOne({
       where: { id },
