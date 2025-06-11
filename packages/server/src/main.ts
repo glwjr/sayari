@@ -3,8 +3,10 @@ import { AppModule } from './app.module';
 import { SeedService } from './database/seeds/seed.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: { origin: [process.env.FRONTEND_URL as string] },
+  const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: [process.env.FRONTEND_URL].filter((v): v is string => !!v),
   });
 
   const seedService = app.get(SeedService);
