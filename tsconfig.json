@@ -2,16 +2,14 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./dist",
+    "composite": true,
     "baseUrl": ".",
     "paths": {
       "@server/*": ["./packages/server/src/*"],
@@ -19,12 +17,8 @@
     }
   },
   "references": [
-    {
-      "path": "./packages/server"
-    },
-    {
-      "path": "./packages/web"
-    }
+    { "path": "./packages/server" },
+    { "path": "./packages/web" }
   ],
   "exclude": [
     "node_modules",
