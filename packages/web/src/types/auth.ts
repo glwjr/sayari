@@ -1,11 +1,4 @@
-export interface User {
-  id: string;
-  username: string;
-  role?: string;
-  createdAt: Date;
-  isActive: boolean;
-  postCount?: number;
-}
+import { User } from "./user";
 
 export interface AuthState {
   isAuthenticated: boolean;

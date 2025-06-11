@@ -1,6 +1,6 @@
 import Profile from "@/components/users/profile";
 import PostFeed from "@/components/posts/post-feed";
-import { User } from "@/types/auth";
+import { User } from "@/types/user";
 
 async function fetchUserProfile(userId: string) {
   try {
@@ -33,9 +33,11 @@ export default async function UserProfilePage({
   return (
     <main>
       <Profile user={user} />
-      <div className="mt-6">
-        <PostFeed type={`${user.username}'s Post`} posts={posts} />
-      </div>
+      {posts.length > 0 && (
+        <div className="mt-6">
+          <PostFeed type={`${user.username}'s Post`} posts={posts} />
+        </div>
+      )}
     </main>
   );
 }

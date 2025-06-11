@@ -1,4 +1,4 @@
-import { User } from "./auth";
+import { User } from "./user";
 import { Comment } from "./comment";
 
 export interface Post {

@@ -1,5 +1,5 @@
 import { formatDistance } from "date-fns";
-import { User } from "@/types/auth";
+import { User } from "@/types/user";
 
 export default function Profile({ user }: { user: User }) {
   const registeredDate = formatDistance(user.createdAt, new Date(), {
