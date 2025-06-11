@@ -14,8 +14,8 @@ import {
   AuthState,
   LoginCredentials,
   RegisterData,
-  User,
 } from "@/types/auth";
+import { User } from "@/types/user";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

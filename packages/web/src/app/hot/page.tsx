@@ -1,26 +1,54 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { LoadingProgress } from "@/components/common/loading-progress";
 import PostFeed from "@/components/posts/post-feed";
 import { Post } from "@/types/post";
 
-async function fetchHotPosts() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/hot`);
+export default function HotFeed() {
+  const [state, setState] = useState<{
+    posts: Post[] | [];
+    isLoading: boolean;
+    error: string | null;
+  }>({
+    posts: [],
+    isLoading: true,
+    error: null,
+  });
 
-    if (!res.ok) throw new Error("Failed to fetch posts");
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/hot`);
 
-    const data: Post[] = await res.json();
+        if (!res.ok) throw new Error("Failed to fetch posts");
 
-    return data;
-  } catch (error) {
-    throw new Error(`An error has occured: ${error}`);
+        const posts: Post[] = await res.json();
+
+        setState({ posts, isLoading: false, error: null });
+      } catch (error) {
+        setState({
+          posts: [],
+          isLoading: false,
+          error: (error as Error).message,
+        });
+      }
+    }
+
+    fetchPosts();
+  }, []);
+
+  if (state.isLoading) {
+    return (
+      <main>
+        <LoadingProgress />
+      </main>
+    );
   }
-}
-
-export default async function HotFeed() {
-  const posts = await fetchHotPosts();
 
   return (
-    <div>
-      <PostFeed type="Hot" posts={posts} />
-    </div>
+    <main>
+      <PostFeed type="Hot" posts={state.posts} />
+    </main>
   );
 }

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import ErrorFeedback from "@/components/common/error-feedback";
 import ProtectedRoute from "@/components/auth/protected-route";
+import { LoadingProgress } from "@/components/common/loading-progress";
 import { apiClient } from "@/lib/api-client";
 import { Post } from "@/types/post";
 
@@ -84,6 +85,14 @@ function EditPostPageContent({ params }: { params: Promise<{ id: string }> }) {
       return () => clearTimeout(timer);
     }
   }, [state.error, clearError]);
+
+  if (state.isLoading) {
+    return (
+      <main>
+        <LoadingProgress />
+      </main>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit}>

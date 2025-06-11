@@ -1,26 +1,54 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { LoadingProgress } from "@/components/common/loading-progress";
 import PostFeed from "@/components/posts/post-feed";
 import { Post } from "@/types/post";
 
-async function fetchPosts() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`);
+export default function HomeFeed() {
+  const [state, setState] = useState<{
+    posts: Post[] | [];
+    isLoading: boolean;
+    error: string | null;
+  }>({
+    posts: [],
+    isLoading: true,
+    error: null,
+  });
 
-    if (!res.ok) throw new Error("Failed to fetch posts");
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`);
 
-    const data: Post[] = await res.json();
+        if (!res.ok) throw new Error("Failed to fetch posts");
 
-    return data;
-  } catch (error) {
-    throw new Error(`An error has occured: ${error}`);
+        const posts: Post[] = await res.json();
+
+        setState({ posts, isLoading: false, error: null });
+      } catch (error) {
+        setState({
+          posts: [],
+          isLoading: false,
+          error: (error as Error).message,
+        });
+      }
+    }
+
+    fetchPosts();
+  }, []);
+
+  if (state.isLoading) {
+    return (
+      <main>
+        <LoadingProgress />
+      </main>
+    );
   }
-}
-
-export default async function HomeFeed() {
-  const posts = await fetchPosts();
 
   return (
-    <div>
-      <PostFeed type="Home" posts={posts} />
-    </div>
+    <main>
+      <PostFeed type="Home" posts={state.posts} />
+    </main>
   );
 }
