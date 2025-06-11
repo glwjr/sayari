@@ -1,10 +1,9 @@
 {
   "name": "server",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "author": "Gary White",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -44,7 +43,7 @@
     "@swc/core": "^1.10.8",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.7",
+    "@types/node": "^22.15.31",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
