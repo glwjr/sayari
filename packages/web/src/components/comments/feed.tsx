@@ -89,7 +89,7 @@ export default function CommentFeed({
               <div className="flex items-center space-x-5" />
               <button
                 type="submit"
-                className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+                className="cursor-pointer rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-800 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-100"
                 disabled={!content.trim()}
               >
                 Submit

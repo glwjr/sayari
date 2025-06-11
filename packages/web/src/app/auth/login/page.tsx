@@ -24,7 +24,12 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await login(formData);
+
+    const trimmedData = {
+      username: formData.username.trim(),
+      password: formData.password.trim(),
+    };
+    const result = await login(trimmedData);
 
     if (result.success) {
       router.back();
