@@ -1,7 +1,9 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsBoolean, IsString, IsOptional } from 'class-validator';
 import { UserRole } from '../user.entity';
 
 export class UpdateUserDto {
+  userId?: string;
+
   @IsOptional()
   @IsString()
   username?: string;
@@ -11,7 +13,7 @@ export class UpdateUserDto {
   password?: string;
 
   @IsOptional()
-  @IsString()
+  @IsBoolean()
   isActive?: boolean;
 
   @IsOptional()

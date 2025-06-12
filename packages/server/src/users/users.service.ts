@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole } from './user.entity';
@@ -16,7 +20,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = new User();
     user.username = createUserDto.username;
-    user.passwordHash = (await hashPassword(createUserDto.password)) as string;
+    user.passwordHash = await hashPassword(createUserDto.password);
 
     return this.usersRepository.save(user);
   }
@@ -69,31 +73,74 @@ export class UsersService {
   async update(id: string, updateData: UpdateUserDto): Promise<User | null> {
     const existingUser = await this.usersRepository.findOneBy({ id });
 
-    if (!existingUser || existingUser.role === UserRole.ADMIN) {
+    if (!existingUser) {
       return null;
     }
+
+    const requestingUser = await this.usersRepository.findOneBy({
+      id: updateData.userId,
+    });
+
+    if (
+      existingUser.role === UserRole.ADMIN &&
+      requestingUser?.role !== UserRole.ADMIN
+    ) {
+      throw new ForbiddenException('Cannot update admin users');
+    }
+
+    if (
+      updateData.userId !== id &&
+      (!requestingUser || requestingUser.role !== UserRole.ADMIN)
+    ) {
+      throw new ForbiddenException('You can only update your own profile');
+    }
+
+    if (updateData.role && requestingUser?.role !== UserRole.ADMIN) {
+      throw new ForbiddenException('Only admins can change user roles');
+    }
+
+    if (updateData.isActive === false && existingUser.role === UserRole.ADMIN) {
+      throw new ForbiddenException('Cannot deactivate admin users');
+    }
+
+    delete updateData.userId;
 
     const updateObject: Partial<User> = { ...updateData };
 
     if (updateData.password) {
-      updateObject.passwordHash = (await hashPassword(
-        updateData.password,
-      )) as string;
+      updateObject.passwordHash = await hashPassword(updateData.password);
     }
-
-    // Remove undefined values to avoid updating with undefined
-    Object.keys(updateObject).forEach((key) => {
-      if (updateObject[key] === undefined) {
-        delete updateObject[key];
-      }
-    });
 
     await this.usersRepository.update(id, updateObject);
 
     return this.findById(id);
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string, requestingUserId: string): Promise<void> {
+    const existingUser = await this.usersRepository.findOneBy({ id });
+    const requestingUser = await this.usersRepository.findOneBy({
+      id: requestingUserId,
+    });
+
+    if (!existingUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (!requestingUser) {
+      throw new ForbiddenException('Requesting user not found');
+    }
+
+    if (
+      existingUser.id !== requestingUserId &&
+      requestingUser.role !== UserRole.ADMIN
+    ) {
+      throw new ForbiddenException('You can only delete your own profile');
+    }
+
+    if (existingUser.role === UserRole.ADMIN) {
+      throw new ForbiddenException('Cannot delete admin users');
+    }
+
     await this.usersRepository.delete(id);
   }
 }
