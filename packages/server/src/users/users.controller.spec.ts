@@ -1,95 +1,105 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-
-const createUserDto: CreateUserDto = {
-  username: 'username',
-  password: 'password',
-};
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User, UserRole } from './user.entity';
 
 describe('UsersController', () => {
-  let usersController: UsersController;
-  let usersService: UsersService;
+  let controller: UsersController;
+  let usersService: jest.Mocked<UsersService>;
+
+  const mockUser: User = {
+    id: '1',
+    username: 'testuser',
+    passwordHash: 'hashedpw',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    role: UserRole.USER,
+    isActive: true,
+    posts: [],
+    comments: [],
+    postCount: 0,
+    deletedAt: undefined,
+  };
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
       providers: [
-        UsersService,
         {
           provide: UsersService,
           useValue: {
-            create: jest
-              .fn()
-              .mockImplementation((user: CreateUserDto) =>
-                Promise.resolve({ id: '1', ...user }),
-              ),
-            findAll: jest.fn().mockResolvedValue([
-              {
-                firstName: 'firstName #1',
-                lastName: 'lastName #1',
-              },
-              {
-                firstName: 'firstName #2',
-                lastName: 'lastName #2',
-              },
-            ]),
-            findOne: jest.fn().mockImplementation((id: string) =>
-              Promise.resolve({
-                firstName: 'firstName #1',
-                lastName: 'lastName #1',
-                id,
-              }),
-            ),
-            remove: jest.fn(),
+            create: jest.fn(),
+            findAll: jest.fn(),
+            findById: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
           },
         },
       ],
     }).compile();
 
-    usersController = app.get<UsersController>(UsersController);
-    usersService = app.get<UsersService>(UsersService);
+    controller = module.get<UsersController>(UsersController);
+    usersService = module.get(UsersService);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
-    expect(usersController).toBeDefined();
+    expect(controller).toBeDefined();
   });
 
-  describe('create()', () => {
-    it('should create a user', () => {
-      void usersController.create(createUserDto);
-      void expect(usersController.create(createUserDto)).resolves.toEqual({
-        id: '1',
-        ...createUserDto,
+  describe('create', () => {
+    it('should create a user', async () => {
+      const dto: CreateUserDto = { username: 'foo', password: 'bar' };
+      usersService.create.mockResolvedValue({
+        ...mockUser,
+        username: dto.username,
       });
-      expect(usersService.create).toHaveBeenCalledWith(createUserDto);
+      await expect(controller.create(dto)).resolves.toEqual({
+        ...mockUser,
+        username: dto.username,
+      });
+      expect(usersService.create).toHaveBeenCalledWith(dto);
     });
   });
 
-  describe('findAll()', () => {
-    it('should find all users ', () => {
-      void usersController.findAll();
+  describe('findAll', () => {
+    it('should return all users', async () => {
+      usersService.findAll.mockResolvedValue([mockUser]);
+      await expect(controller.findAll()).resolves.toEqual([mockUser]);
       expect(usersService.findAll).toHaveBeenCalled();
     });
   });
 
-  describe('findOne()', () => {
-    it('should find a user', () => {
-      void expect(usersController.findById('1')).resolves.toEqual({
-        firstName: 'firstName #1',
-        lastName: 'lastName #1',
-        id: 1,
-      });
-      expect(usersService.findById).toHaveBeenCalled();
+  describe('findById', () => {
+    it('should return a user by id', async () => {
+      usersService.findById.mockResolvedValue(mockUser);
+      await expect(controller.findById('1')).resolves.toEqual(mockUser);
+      expect(usersService.findById).toHaveBeenCalledWith('1');
     });
   });
 
-  describe('remove()', () => {
-    it('should remove the user', () => {
-      void usersController.delete('2');
-      expect(usersService.delete).toHaveBeenCalled();
+  describe('updateUser', () => {
+    it('should update a user', async () => {
+      const dto: UpdateUserDto = { username: 'updated' };
+      usersService.update.mockResolvedValue({ ...mockUser, ...dto });
+      await expect(controller.updateUser('1', dto)).resolves.toEqual({
+        ...mockUser,
+        ...dto,
+      });
+      expect(usersService.update).toHaveBeenCalledWith('1', dto);
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete a user', async () => {
+      usersService.delete.mockResolvedValue(undefined);
+      await expect(controller.delete('1')).resolves.toBeUndefined();
+      expect(usersService.delete).toHaveBeenCalledWith('1');
     });
   });
 });
