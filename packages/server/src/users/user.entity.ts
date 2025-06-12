@@ -39,7 +39,7 @@ export class User {
   updatedAt: Date;
 
   @DeleteDateColumn({ type: 'timestamptz', nullable: true })
-  deletedAt: Date;
+  deletedAt?: Date;
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];

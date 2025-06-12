@@ -1,28 +1,46 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
 import { UsersService } from './users.service';
+import { User, UserRole } from './user.entity';
+import { hashPassword } from 'src/auth/auth.util';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
-const userArray = [
+jest.mock('src/auth/auth.util', () => ({
+  hashPassword: jest.fn((pw: string) => `hashed-${pw}`),
+}));
+
+const userArray: User[] = [
   {
-    firstName: 'firstName #1',
-    lastName: 'lastName #1',
+    id: '1',
+    username: 'user1',
+    passwordHash: 'hashed-password1',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    role: UserRole.USER,
+    isActive: true,
+    posts: [],
+    deletedAt: undefined,
+    comments: [],
   },
   {
-    firstName: 'firstName #2',
-    lastName: 'lastName #2',
+    id: '2',
+    username: 'admin',
+    passwordHash: 'hashed-password2',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    role: UserRole.ADMIN,
+    isActive: true,
+    posts: [],
+    deletedAt: undefined,
+    comments: [],
   },
 ];
 
-const oneUser = {
-  firstName: 'firstName #1',
-  lastName: 'lastName #1',
-};
-
-describe('UserService', () => {
+describe('UsersService', () => {
   let service: UsersService;
-  let repository: Repository<User>;
+  let repo: Repository<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,10 +49,14 @@ describe('UserService', () => {
         {
           provide: getRepositoryToken(User),
           useValue: {
-            find: jest.fn().mockResolvedValue(userArray),
-            findOneBy: jest.fn().mockResolvedValue(oneUser),
-            save: jest.fn().mockResolvedValue(oneUser),
-            remove: jest.fn(),
+            save: jest.fn(),
+            findOne: jest.fn(),
+            findOneBy: jest.fn(),
+            createQueryBuilder: jest.fn(() => ({
+              loadRelationCountAndMap: jest.fn().mockReturnThis(),
+              getMany: jest.fn().mockResolvedValue(userArray),
+            })),
+            update: jest.fn(),
             delete: jest.fn(),
           },
         },
@@ -42,50 +64,88 @@ describe('UserService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
-    repository = module.get<Repository<User>>(getRepositoryToken(User));
+    repo = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  describe('create()', () => {
-    it('should successfully insert a user', () => {
-      const oneUser = {
-        firstName: 'firstName #1',
-        lastName: 'lastName #1',
-      };
-
-      void expect(
-        service.create({
-          firstName: 'firstName #1',
-          lastName: 'lastName #1',
-        }),
-      ).resolves.toEqual(oneUser);
+  it('should create a user', async () => {
+    const dto: CreateUserDto = { username: 'test', password: 'pw' };
+    (repo.save as jest.Mock).mockResolvedValue({
+      ...userArray[0],
+      username: dto.username,
     });
+    const user = await service.create(dto);
+    expect(hashPassword).toHaveBeenCalledWith('pw');
+    expect(repo.save).toHaveBeenCalled();
+    expect(user.username).toBe('test');
   });
 
-  describe('findAll()', () => {
-    it('should return an array of users', async () => {
-      const users = await service.findAll();
-      expect(users).toEqual(userArray);
+  it('should find user by id with password', async () => {
+    (repo.findOne as jest.Mock).mockResolvedValue(userArray[0]);
+    const user = await service.findByIdWithPassword('1');
+    expect(repo.findOne).toHaveBeenCalledWith({
+      where: { id: '1' },
+      select: expect.any(Object),
     });
+    expect(user).toEqual(userArray[0]);
   });
 
-  describe('findOne()', () => {
-    it('should get a single user', () => {
-      const repoSpy = jest.spyOn(repository, 'findOneBy');
-      void expect(service.findOne(1)).resolves.toEqual(oneUser);
-      expect(repoSpy).toHaveBeenCalledWith({ id: 1 });
+  it('should find user by username with password', async () => {
+    (repo.findOne as jest.Mock).mockResolvedValue(userArray[0]);
+    const user = await service.findByUsernameWithPassword('user1');
+    expect(repo.findOne).toHaveBeenCalledWith({
+      where: { username: 'user1' },
+      select: expect.any(Object),
     });
+    expect(user).toEqual(userArray[0]);
   });
 
-  describe('remove()', () => {
-    it('should call remove with the passed value', async () => {
-      const removeSpy = jest.spyOn(repository, 'delete');
-      const retVal = await service.remove('2');
-      expect(removeSpy).toHaveBeenCalledWith('2');
-      expect(retVal).toBeUndefined();
+  it('should find all users', async () => {
+    const users = await service.findAll();
+    expect(users).toEqual(userArray);
+  });
+
+  it('should find user by id', async () => {
+    (repo.findOneBy as jest.Mock).mockResolvedValue(userArray[0]);
+    const user = await service.findById('1');
+    expect(repo.findOneBy).toHaveBeenCalledWith({ id: '1' });
+    expect(user).toEqual(userArray[0]);
+  });
+
+  it('should find user by username', async () => {
+    (repo.findOneBy as jest.Mock).mockResolvedValue(userArray[0]);
+    const user = await service.findByUsername('user1');
+    expect(repo.findOneBy).toHaveBeenCalledWith({ username: 'user1' });
+    expect(user).toEqual(userArray[0]);
+  });
+
+  it('should update a user (not admin)', async () => {
+    const updateDto: UpdateUserDto = { password: 'newpw', isActive: false };
+    (repo.findOneBy as jest.Mock).mockResolvedValue({ ...userArray[0] });
+    (repo.update as jest.Mock).mockResolvedValue(undefined);
+    (repo.findOneBy as jest.Mock).mockResolvedValueOnce({ ...userArray[0] });
+    (repo.findOneBy as jest.Mock).mockResolvedValueOnce({
+      ...userArray[0],
+      isActive: false,
     });
+    const updated = await service.update('1', updateDto);
+    expect(hashPassword).toHaveBeenCalledWith('newpw');
+    expect(repo.update).toHaveBeenCalled();
+    expect(updated).toBeDefined();
+  });
+
+  it('should not update admin user', async () => {
+    (repo.findOneBy as jest.Mock).mockResolvedValue(userArray[1]);
+    const updated = await service.update('2', { isActive: false });
+    expect(updated).toBeNull();
+  });
+
+  it('should delete a user', async () => {
+    (repo.delete as jest.Mock).mockResolvedValue(undefined);
+    await expect(service.delete('1')).resolves.toBeUndefined();
+    expect(repo.delete).toHaveBeenCalledWith('1');
   });
 });

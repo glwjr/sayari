@@ -16,7 +16,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = new User();
     user.username = createUserDto.username;
-    user.passwordHash = await hashPassword(createUserDto.password);
+    user.passwordHash = (await hashPassword(createUserDto.password)) as string;
 
     return this.usersRepository.save(user);
   }
@@ -76,7 +76,9 @@ export class UsersService {
     const updateObject: Partial<User> = { ...updateData };
 
     if (updateData.password) {
-      updateObject.passwordHash = await hashPassword(updateData.password);
+      updateObject.passwordHash = (await hashPassword(
+        updateData.password,
+      )) as string;
     }
 
     // Remove undefined values to avoid updating with undefined
