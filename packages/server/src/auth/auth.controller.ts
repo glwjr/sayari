@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Post,
   Request,
+  ValidationPipe, // Add this import
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
@@ -26,7 +27,7 @@ export class AuthController {
   @Public()
   @Post('register')
   @HttpCode(HttpStatus.OK)
-  register(@Body() registerDto: RegisterDto) {
+  register(@Body(ValidationPipe) registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
 
