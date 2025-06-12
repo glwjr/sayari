@@ -42,10 +42,7 @@ describe('AuthService', () => {
         {
           provide: JwtService,
           useValue: {
-            signAsync: jest.fn().mockImplementation(async function (
-              this: void,
-              ...args
-            ) {
+            signAsync: jest.fn().mockImplementation(function (this: void) {
               return 'signed-token';
             }),
           },
