@@ -38,6 +38,7 @@ Sayari is a full-stack social media application built for learning and experimen
 ├── packages/
 │   ├── server/   # NestJS backend API
 │   └── web/      # Next.js frontend app
+├── LICENSE
 └── .gitignore
 ```
 
@@ -72,11 +73,24 @@ FRONTEND_URL=http://localhost:3000
 PORT=8000
 ```
 
+#### `packages/server/.env.test`
+
+```
+DATABASE_URL=<your-test-postgres-database-url>
+JWT_SECRET=<your-test-jwt-secret>
+ADMIN_USERNAME=<your-test-admin-username>
+ADMIN_PASSWORD=<your-test-admin-password>
+FRONTEND_URL=http://localhost:3000
+PORT=8001
+```
+
 #### `packages/web/.env`
 
 ```
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
+
+Note: Make sure to create a separate test database (`sayari_test`) for running e2e tests.
 
 ### Installation
 
