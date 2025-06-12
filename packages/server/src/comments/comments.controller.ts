@@ -11,10 +11,10 @@ import {
   Delete,
   Request,
 } from '@nestjs/common';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { Comment } from './comment.entity';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('posts/:postId/comments')
 export class CommentsController {
