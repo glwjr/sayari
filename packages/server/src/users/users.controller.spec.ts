@@ -85,21 +85,36 @@ describe('UsersController', () => {
 
   describe('updateUser', () => {
     it('should update a user', async () => {
-      const dto: UpdateUserDto = { username: 'updated' };
+      const dto: UpdateUserDto = {
+        username: 'updated',
+        userId: '1',
+        role: UserRole.USER,
+      };
       usersService.update.mockResolvedValue({ ...mockUser, ...dto });
-      await expect(controller.updateUser('1', dto)).resolves.toEqual({
+      await expect(
+        controller.updateUser('1', dto, {
+          user: { id: '1', role: UserRole.USER },
+        }),
+      ).resolves.toEqual({
         ...mockUser,
         ...dto,
       });
-      expect(usersService.update).toHaveBeenCalledWith('1', dto);
+      expect(usersService.update).toHaveBeenCalledWith('1', {
+        ...dto,
+        userId: '1',
+      });
     });
   });
 
   describe('delete', () => {
     it('should delete a user', async () => {
       usersService.delete.mockResolvedValue(undefined);
-      await expect(controller.delete('1')).resolves.toBeUndefined();
-      expect(usersService.delete).toHaveBeenCalledWith('1');
+      await expect(
+        controller.delete('1', {
+          user: { id: '1', role: UserRole.USER },
+        }),
+      ).resolves.toBeUndefined();
+      expect(usersService.delete).toHaveBeenCalledWith('1', '1');
     });
   });
 });

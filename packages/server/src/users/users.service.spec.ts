@@ -6,6 +6,7 @@ import { User, UserRole } from './user.entity';
 import { hashPassword } from 'src/auth/auth.util';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ForbiddenException } from '@nestjs/common';
 
 jest.mock('src/auth/auth.util', () => ({
   hashPassword: jest.fn((pw: string) => `hashed-${pw}`),
@@ -123,7 +124,11 @@ describe('UsersService', () => {
   });
 
   it('should update a user (not admin)', async () => {
-    const updateDto: UpdateUserDto = { password: 'newpw', isActive: false };
+    const updateDto: UpdateUserDto = {
+      password: 'newpw',
+      isActive: false,
+      userId: '1',
+    };
     (repo.findOneBy as jest.Mock).mockResolvedValue({ ...userArray[0] });
     (repo.update as jest.Mock).mockResolvedValue(undefined);
     (repo.findOneBy as jest.Mock).mockResolvedValueOnce({ ...userArray[0] });
@@ -139,13 +144,19 @@ describe('UsersService', () => {
 
   it('should not update admin user', async () => {
     (repo.findOneBy as jest.Mock).mockResolvedValue(userArray[1]);
-    const updated = await service.update('2', { isActive: false });
-    expect(updated).toBeNull();
+    await expect(service.update('2', { isActive: false })).rejects.toThrow(
+      ForbiddenException,
+    );
   });
 
   it('should delete a user', async () => {
+    (repo.findOneBy as jest.Mock)
+      .mockResolvedValueOnce(userArray[0])
+      .mockResolvedValueOnce(userArray[1]);
+
     (repo.delete as jest.Mock).mockResolvedValue(undefined);
-    await expect(service.delete('1')).resolves.toBeUndefined();
-    expect(repo.delete).toHaveBeenCalledWith('1');
+
+    await expect(service.delete('1', '2')).resolves.toBeUndefined();
+    expect(jest.mocked(repo.delete)).toHaveBeenCalledWith('1');
   });
 });
