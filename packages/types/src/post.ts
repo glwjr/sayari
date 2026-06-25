@@ -1,5 +1,5 @@
-import { User } from "./user";
-import { Comment } from "./comment";
+import { User } from './user';
+import { Comment } from './comment';
 
 export interface Post {
   id: string;
@@ -8,6 +8,7 @@ export interface Post {
   createdAt: Date;
   updatedAt: Date;
   user: User;
+  userId?: string;
   comments: Comment[];
   commentCount?: number;
 }

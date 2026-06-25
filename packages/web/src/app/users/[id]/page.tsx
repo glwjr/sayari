@@ -1,6 +1,6 @@
 import Profile from "@/components/users/profile";
 import PostFeed from "@/components/posts/post-feed";
-import { User } from "@/types/user";
+import { User } from "@sayari/types";
 
 async function fetchUserProfile(userId: string) {
   try {

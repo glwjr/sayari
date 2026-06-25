@@ -15,7 +15,7 @@ import {
   LoginCredentials,
   RegisterData,
 } from "@/types/auth";
-import { User } from "@/types/user";
+import { User } from "@sayari/types";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

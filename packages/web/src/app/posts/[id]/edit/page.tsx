@@ -8,7 +8,7 @@ import ErrorFeedback from "@/components/common/error-feedback";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { LoadingProgress } from "@/components/common/loading-progress";
 import { apiClient } from "@/lib/api-client";
-import { Post } from "@/types/post";
+import { Post } from "@sayari/types";
 
 export default function EditPostPage({
   params,

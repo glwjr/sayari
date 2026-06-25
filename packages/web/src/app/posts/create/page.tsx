@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/auth-context";
 import ErrorFeedback from "@/components/common/error-feedback";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { apiClient } from "@/lib/api-client";
-import { Post } from "@/types/post";
+import { Post } from "@sayari/types";
 
 export default function CreatePostPage() {
   return (

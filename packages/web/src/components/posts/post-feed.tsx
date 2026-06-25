@@ -1,6 +1,6 @@
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { formatDate } from "date-fns";
-import { Post } from "@/types/post";
+import { Post } from "@sayari/types";
 
 export default function PostFeed({
   type,

@@ -14,7 +14,7 @@ import { useAuth } from "@/contexts/auth-context";
 import CommentFeed from "@/components/comments/feed";
 import { LoadingProgress } from "@/components/common/loading-progress";
 import { apiClient } from "@/lib/api-client";
-import { Post } from "@/types/post";
+import { Post } from "@sayari/types";
 
 export default function PostPage({
   params,

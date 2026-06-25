@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { formatDate } from "date-fns";
-import { User } from "@/types/user";
+import { User } from "@sayari/types";
 import Toggle from "./toggle";
 
 export default function AdminPanelUserTable({ users }: { users: User[] }) {

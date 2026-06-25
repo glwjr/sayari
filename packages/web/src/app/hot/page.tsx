@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { LoadingProgress } from "@/components/common/loading-progress";
 import PostFeed from "@/components/posts/post-feed";
-import { Post } from "@/types/post";
+import { Post } from "@sayari/types";
 
 export default function HotFeed() {
   const [state, setState] = useState<{

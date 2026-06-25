@@ -6,7 +6,7 @@ import ProtectedRoute from "@/components/auth/protected-route";
 import { LoadingProgress } from "@/components/common/loading-progress";
 import ErrorFeedback from "@/components/common/error-feedback";
 import { apiClient } from "@/lib/api-client";
-import { User } from "@/types/user";
+import { User } from "@sayari/types";
 
 export default function AdminHomePage() {
   return (

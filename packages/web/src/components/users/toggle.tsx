@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import { apiClient } from "@/lib/api-client";
-import { User } from "@/types/user";
+import { User } from "@sayari/types";
 
 interface ToggleProps {
   userId: string;

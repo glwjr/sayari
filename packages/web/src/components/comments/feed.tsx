@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
 import { useAuth } from "@/contexts/auth-context";
-import { Comment } from "@/types/comment";
+import { Comment } from "@sayari/types";
 import CommentAvatar from "./avatar";
 import { apiClient } from "@/lib/api-client";
 import ErrorFeedback from "../common/error-feedback";
