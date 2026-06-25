@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { AuthResponse } from '@sayari/types';
 import { User } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dto/login.dto';
@@ -15,10 +16,6 @@ interface JwtPayload {
   username: string;
   createdAt: Date;
   role: string;
-}
-
-export interface AuthResponse {
-  access_token: string;
 }
 
 @Injectable()
@@ -69,8 +66,11 @@ export class AuthService {
       role: user.role,
     };
 
+    const { passwordHash: _, ...publicUser } = user;
+
     return {
       access_token: await this.jwtService.signAsync(payload),
+      user: publicUser,
     };
   }
 }

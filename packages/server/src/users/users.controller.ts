@@ -37,6 +37,14 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get('profile')
+  @HttpCode(HttpStatus.OK)
+  getProfile(
+    @Request() req: { user: { id: string } },
+  ): Promise<User | null> {
+    return this.usersService.findById(req.user.id);
+  }
+
   @Public()
   @Get(':id')
   @HttpCode(HttpStatus.OK)

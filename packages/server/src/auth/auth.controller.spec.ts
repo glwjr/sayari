@@ -52,15 +52,8 @@ describe('AuthController', () => {
 
   describe('validate', () => {
     it('should return req.user', () => {
-      const req = { user: { id: '1', username: 'user' } };
+      const req = { user: { id: '1', username: 'user', role: 'user' } };
       expect(controller.validate(req)).toEqual(req.user);
-    });
-  });
-
-  describe('getProfile', () => {
-    it('should return req.user', () => {
-      const req = { user: { id: '1', username: 'user' } };
-      expect(controller.getProfile(req)).toEqual(req.user);
     });
   });
 });

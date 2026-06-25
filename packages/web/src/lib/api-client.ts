@@ -50,16 +50,12 @@ class ApiClient {
     const token = this.getToken();
     const headers = this.buildHeaders(token, options.headers);
 
-    try {
-      const response = await fetch(`${this.baseURL}${endpoint}`, {
-        ...options,
-        headers,
-      });
+    const response = await fetch(`${this.baseURL}${endpoint}`, {
+      ...options,
+      headers,
+    });
 
-      return await this.handleResponse<T>(response);
-    } catch (error) {
-      throw error;
-    }
+    return this.handleResponse<T>(response);
   }
 
   get<T>(endpoint: string): Promise<T> {

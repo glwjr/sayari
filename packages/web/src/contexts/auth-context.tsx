@@ -15,7 +15,7 @@ import {
   LoginCredentials,
   RegisterData,
 } from '@/types/auth';
-import { User } from '@sayari/types';
+import { AuthResponse, User } from '@sayari/types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -39,7 +39,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         user: null,
         token: null,
         loading: false,
-        error: action.payload,
+        error: null,
       };
     case 'LOGOUT':
       return {
@@ -68,7 +68,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     error: null,
   });
 
-  // Initialize auth state on mount
   useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem('access_token');
@@ -96,18 +95,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'AUTH_START' });
 
     try {
-      const response = await apiClient.post<{
-        access_token: string;
-        user: User;
-      }>('/auth/login', credentials);
+      const response = await apiClient.post<AuthResponse>(
+        '/auth/login',
+        credentials,
+      );
 
       localStorage.setItem('access_token', response.access_token);
       dispatch({
         type: 'AUTH_SUCCESS',
-        payload: {
-          user: response.user,
-          token: response.access_token,
-        },
+        payload: { user: response.user, token: response.access_token },
       });
 
       return { success: true };
@@ -123,18 +119,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'AUTH_START' });
 
     try {
-      const response = await apiClient.post<{
-        access_token: string;
-        user: User;
-      }>('/auth/register', userData);
+      const response = await apiClient.post<AuthResponse>(
+        '/auth/register',
+        userData,
+      );
 
       localStorage.setItem('access_token', response.access_token);
       dispatch({
         type: 'AUTH_SUCCESS',
-        payload: {
-          user: response.user,
-          token: response.access_token,
-        },
+        payload: { user: response.user, token: response.access_token },
       });
 
       return { success: true };
@@ -156,16 +149,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const refreshUser = async () => {
-    try {
-      const user = await apiClient.get<User>('/users/profile');
-      if (state.token) {
-        dispatch({
-          type: 'AUTH_SUCCESS',
-          payload: { user, token: state.token },
-        });
-      }
-    } catch (error) {
-      throw error;
+    const user = await apiClient.get<User>('/users/profile');
+    if (state.token) {
+      dispatch({
+        type: 'AUTH_SUCCESS',
+        payload: { user, token: state.token },
+      });
     }
   };
 
