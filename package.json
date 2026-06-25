@@ -6,8 +6,14 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present"
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "lint": "turbo run lint",
+    "dev": "turbo run dev"
+  },
+  "packageManager": "npm@11.6.1",
+  "devDependencies": {
+    "turbo": "^2.10.0"
   }
 }
