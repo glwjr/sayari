@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { formatDate } from "date-fns";
-import { User } from "@sayari/types";
-import Toggle from "./toggle";
+import Link from 'next/link';
+import { formatDate } from 'date-fns';
+import { User } from '@sayari/types';
+import Toggle from './toggle';
 
 export default function AdminPanelUserTable({ users }: { users: User[] }) {
   return (
@@ -68,7 +68,7 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
                   </Link>
                 </td>
                 <td className="hidden px-3 py-4 text-sm whitespace-nowrap text-gray-500 sm:table-cell">
-                  {`${formatDate(user.createdAt, "PPPp")}`}
+                  {`${formatDate(user.createdAt, 'PPPp')}`}
                 </td>
                 <td className="hidden px-3 py-4 text-sm whitespace-nowrap text-gray-500 sm:table-cell">
                   {user.postCount}
@@ -80,7 +80,7 @@ export default function AdminPanelUserTable({ users }: { users: User[] }) {
                   <Toggle
                     userId={user.id}
                     initialValue={user.isActive}
-                    disabled={user.role === "admin"}
+                    disabled={user.role === 'admin'}
                   />
                 </td>
               </tr>

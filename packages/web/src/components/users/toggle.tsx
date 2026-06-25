@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Switch } from "@headlessui/react";
-import { apiClient } from "@/lib/api-client";
-import { User } from "@sayari/types";
+import { useState } from 'react';
+import { Switch } from '@headlessui/react';
+import { apiClient } from '@/lib/api-client';
+import { User } from '@sayari/types';
 
 interface ToggleProps {
   userId: string;
@@ -39,7 +39,7 @@ export default function Toggle({
       setEnabled(!newValue);
 
       const errorObj =
-        error instanceof Error ? error : new Error("Unknown error occurred");
+        error instanceof Error ? error : new Error('Unknown error occurred');
       onError?.(errorObj);
     } finally {
       setIsLoading(false);
@@ -52,7 +52,7 @@ export default function Toggle({
       onChange={handleToggle}
       disabled={isLoading || disabled}
       className={`group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-gray-600 focus:ring-offset-2 focus:outline-hidden data-checked:bg-gray-800 ${
-        isLoading || disabled ? "opacity-50 cursor-not-allowed" : ""
+        isLoading || disabled ? 'opacity-50 cursor-not-allowed' : ''
       }`}
     >
       <span className="sr-only">Update user&apos;s active status</span>

@@ -10,10 +10,14 @@
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
     "lint": "turbo run lint",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"packages/**/*.{ts,tsx,json,md}\""
   },
   "packageManager": "npm@11.6.1",
   "devDependencies": {
+    "eslint": "^9.39.4",
+    "prettier": "^3.4.2",
     "turbo": "^2.10.0"
   }
 }

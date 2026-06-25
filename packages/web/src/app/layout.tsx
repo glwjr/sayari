@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { AuthProvider } from "@/contexts/auth-context";
-import RedirectHandler from "@/components/auth/redirect-handler";
-import Shell from "@/components/common/shell";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { AuthProvider } from '@/contexts/auth-context';
+import RedirectHandler from '@/components/auth/redirect-handler';
+import Shell from '@/components/common/shell';
 
-import "./globals.css";
+import './globals.css';
 
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Sayari",
+  title: 'Sayari',
   description:
-    "A toy social media app built with NestJS and Next.js for learning and experimentation",
+    'A toy social media app built with NestJS and Next.js for learning and experimentation',
 };
 
 export default function RootLayout({

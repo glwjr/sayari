@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import Image from 'next/image';
+import Link from 'next/link';
+import { redirect, usePathname } from 'next/navigation';
 import {
   Disclosure,
   DisclosureButton,
@@ -11,17 +11,17 @@ import {
   MenuButton,
   MenuItem,
   MenuItems,
-} from "@headlessui/react";
+} from '@headlessui/react';
 import {
   Bars3Icon,
   PencilSquareIcon,
   XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { useAuth } from "@/contexts/auth-context";
-import ShellAvatar from "./shell-avatar";
+} from '@heroicons/react/24/outline';
+import { useAuth } from '@/contexts/auth-context';
+import ShellAvatar from './shell-avatar';
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function Shell({
@@ -38,8 +38,8 @@ export default function Shell({
   };
 
   const navigation = [
-    { name: "Feed", href: "/", current: pathname.endsWith("/") },
-    { name: "Hot", href: "/hot", current: pathname.endsWith("/hot") },
+    { name: 'Feed', href: '/', current: pathname.endsWith('/') },
+    { name: 'Hot', href: '/hot', current: pathname.endsWith('/hot') },
   ];
 
   return (
@@ -70,12 +70,12 @@ export default function Shell({
                             <a
                               key={item.name}
                               href={item.href}
-                              aria-current={item.current ? "page" : undefined}
+                              aria-current={item.current ? 'page' : undefined}
                               className={classNames(
                                 item.current
-                                  ? "bg-gray-900 text-white"
-                                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                                "rounded-md px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                                  ? 'bg-gray-900 text-white'
+                                  : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                'rounded-md px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden',
                               )}
                             >
                               {item.name}
@@ -126,7 +126,7 @@ export default function Shell({
                                     transition
                                     className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                                   >
-                                    {user.role === "admin" ? (
+                                    {user.role === 'admin' ? (
                                       <MenuItem>
                                         <a
                                           href="/admin"
@@ -204,12 +204,12 @@ export default function Shell({
                         key={item.name}
                         as="a"
                         href={item.href}
-                        aria-current={item.current ? "page" : undefined}
+                        aria-current={item.current ? 'page' : undefined}
                         className={classNames(
                           item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "block rounded-md px-3 py-2 text-base font-medium"
+                            ? 'bg-gray-900 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'block rounded-md px-3 py-2 text-base font-medium',
                         )}
                       >
                         {item.name}
@@ -230,7 +230,7 @@ export default function Shell({
                           </div>
                         </div>
                         <div className="mt-3 space-y-1 px-2">
-                          {user.role === "admin" ? (
+                          {user.role === 'admin' ? (
                             <DisclosureButton
                               as="a"
                               href="/admin"

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { usePathname, redirect } from "next/navigation";
-import { useAuth } from "@/contexts/auth-context";
+import { useEffect } from 'react';
+import { usePathname, redirect } from 'next/navigation';
+import { useAuth } from '@/contexts/auth-context';
 
-const PROTECTED_ROUTES = ["/profile", "/settings", "/admin"];
+const PROTECTED_ROUTES = ['/profile', '/settings', '/admin'];
 
-const AUTH_ROUTES = ["/auth/login", "/auth/register"];
+const AUTH_ROUTES = ['/auth/login', '/auth/register'];
 
 export default function RedirectHandler() {
   const { isAuthenticated, loading } = useAuth();
@@ -16,14 +16,14 @@ export default function RedirectHandler() {
     if (loading) return;
 
     const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
-      pathname.startsWith(route)
+      pathname.startsWith(route),
     );
     const isAuthRoute = AUTH_ROUTES.includes(pathname);
 
     if (isProtectedRoute && !isAuthenticated) {
-      redirect("/auth/login");
+      redirect('/auth/login');
     } else if (isAuthRoute && isAuthenticated) {
-      redirect("/");
+      redirect('/');
     }
   }, [isAuthenticated, loading, pathname]);
 

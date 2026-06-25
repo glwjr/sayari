@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { useAuth } from "@/contexts/auth-context";
-import ErrorFeedback from "@/components/common/error-feedback";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { useAuth } from '@/contexts/auth-context';
+import ErrorFeedback from '@/components/common/error-feedback';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
   const { login, loading, error, clearError } = useAuth();
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
     const result = await login(trimmedData);
 
     if (result.success) {
-      redirect("/");
+      redirect('/');
     }
   };
 
@@ -115,13 +115,13 @@ export default function LoginPage() {
                 disabled={loading}
                 className="cursor-pointer flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
               >
-                {loading ? "Logging in..." : "Log in"}
+                {loading ? 'Logging in...' : 'Log in'}
               </button>
             </div>
           </form>
 
           <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <Link
               href="/auth/register"
               className="font-semibold text-gray-800 hover:text-gray-500"

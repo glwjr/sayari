@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import AdminPanelUserTable from "@/components/users/admin-panel-user-table";
-import ProtectedRoute from "@/components/auth/protected-route";
-import { LoadingProgress } from "@/components/common/loading-progress";
-import ErrorFeedback from "@/components/common/error-feedback";
-import { apiClient } from "@/lib/api-client";
-import { User } from "@sayari/types";
+import { useEffect, useState } from 'react';
+import AdminPanelUserTable from '@/components/users/admin-panel-user-table';
+import ProtectedRoute from '@/components/auth/protected-route';
+import { LoadingProgress } from '@/components/common/loading-progress';
+import ErrorFeedback from '@/components/common/error-feedback';
+import { apiClient } from '@/lib/api-client';
+import { User } from '@sayari/types';
 
 export default function AdminHomePage() {
   return (
@@ -30,7 +30,7 @@ function AdminHomeContent() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const users = await apiClient.get<User[]>("/users");
+        const users = await apiClient.get<User[]>('/users');
         setState({ users, isLoading: false, error: null });
       } catch (error) {
         setState({

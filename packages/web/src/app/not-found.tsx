@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import ErrorFeedback from "@/components/common/error-feedback";
+import ErrorFeedback from '@/components/common/error-feedback';
 
 export default function NotFound() {
   return (

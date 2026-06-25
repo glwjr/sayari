@@ -1,6 +1,6 @@
-import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
-import { formatDate } from "date-fns";
-import { Post } from "@sayari/types";
+import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import { formatDate } from 'date-fns';
+import { Post } from '@sayari/types';
 
 export default function PostFeed({
   type,
@@ -39,7 +39,7 @@ export default function PostFeed({
                   <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
                     <circle r={1} cx={1} cy={1} />
                   </svg>
-                  <p>{formatDate(`${post.createdAt}`, "PPPPp")}</p>
+                  <p>{formatDate(`${post.createdAt}`, 'PPPPp')}</p>
                 </div>
               </div>
               <dl className="flex w-full flex-none justify-between gap-x-8 sm:w-auto">

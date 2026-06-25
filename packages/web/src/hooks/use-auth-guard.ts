@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
-import { useAuth } from "@/contexts/auth-context";
+import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
+import { useAuth } from '@/contexts/auth-context';
 
 interface UseAuthGuardOptions {
   requiredRole?: string;
@@ -11,7 +11,7 @@ interface UseAuthGuardOptions {
 }
 
 export function useAuthGuard(options: UseAuthGuardOptions = {}) {
-  const { requiredRole, redirectTo = "/auth/login", enabled = true } = options;
+  const { requiredRole, redirectTo = '/auth/login', enabled = true } = options;
 
   const { isAuthenticated, user, loading } = useAuth();
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -40,7 +40,7 @@ export function useAuthGuard(options: UseAuthGuardOptions = {}) {
     if (shouldRedirect && !loading) {
       const targetRedirect =
         requiredRole && isAuthenticated
-          ? "/" // Role mismatch - redirect to home
+          ? '/' // Role mismatch - redirect to home
           : redirectTo; // Not authenticated - redirect to login
 
       redirect(targetRedirect);

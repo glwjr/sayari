@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/auth-context";
-import ErrorFeedback from "@/components/common/error-feedback";
-import ProtectedRoute from "@/components/auth/protected-route";
-import { LoadingProgress } from "@/components/common/loading-progress";
-import { apiClient } from "@/lib/api-client";
-import { Post } from "@sayari/types";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/auth-context';
+import ErrorFeedback from '@/components/common/error-feedback';
+import ProtectedRoute from '@/components/auth/protected-route';
+import { LoadingProgress } from '@/components/common/loading-progress';
+import { apiClient } from '@/lib/api-client';
+import { Post } from '@sayari/types';
 
 export default function EditPostPage({
   params,
@@ -60,14 +60,14 @@ function EditPostPageContent({ params }: { params: Promise<{ id: string }> }) {
     try {
       const data = new FormData(event.currentTarget);
       const body = {
-        title: data.get("title"),
-        content: data.get("content"),
+        title: data.get('title'),
+        content: data.get('content'),
         userId: user?.id,
       };
 
       const post = await apiClient.patch<Post>(
         `/posts/${(await params).id}`,
-        body
+        body,
       );
 
       router.push(`/posts/${post.id}`);
@@ -116,7 +116,7 @@ function EditPostPageContent({ params }: { params: Promise<{ id: string }> }) {
                     name="title"
                     type="text"
                     required
-                    defaultValue={state.post?.title || ""}
+                    defaultValue={state.post?.title || ''}
                     className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                   />
                 </div>
@@ -135,7 +135,7 @@ function EditPostPageContent({ params }: { params: Promise<{ id: string }> }) {
                   id="content"
                   name="content"
                   rows={3}
-                  defaultValue={state.post?.content || ""}
+                  defaultValue={state.post?.content || ''}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-800 sm:text-sm/6"
                 />
               </div>

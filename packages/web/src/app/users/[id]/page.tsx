@@ -1,6 +1,6 @@
-import Profile from "@/components/users/profile";
-import PostFeed from "@/components/posts/post-feed";
-import { User } from "@sayari/types";
+import Profile from '@/components/users/profile';
+import PostFeed from '@/components/posts/post-feed';
+import { User } from '@sayari/types';
 
 async function fetchUserProfile(userId: string) {
   try {
@@ -10,15 +10,15 @@ async function fetchUserProfile(userId: string) {
       fetch(`${apiUrl}/posts?userId=${userId}`),
     ]);
 
-    if (!profileRes.ok) throw new Error("Failed to fetch user profile");
-    if (!postsRes.ok) throw new Error("Failed to fetch user posts");
+    if (!profileRes.ok) throw new Error('Failed to fetch user profile');
+    if (!postsRes.ok) throw new Error('Failed to fetch user posts');
 
     const user: User = await profileRes.json();
     const posts = await postsRes.json();
 
     return { user, posts };
   } catch (err) {
-    throw new Error(err instanceof Error ? err.message : "Unknown error");
+    throw new Error(err instanceof Error ? err.message : 'Unknown error');
   }
 }
 

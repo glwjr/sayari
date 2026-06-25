@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { LoadingProgress } from "@/components/common/loading-progress";
-import PostFeed from "@/components/posts/post-feed";
-import { Post } from "@sayari/types";
+import { useEffect, useState } from 'react';
+import { LoadingProgress } from '@/components/common/loading-progress';
+import PostFeed from '@/components/posts/post-feed';
+import { Post } from '@sayari/types';
 
 export default function HotFeed() {
   const [state, setState] = useState<{
@@ -21,7 +21,7 @@ export default function HotFeed() {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/hot`);
 
-        if (!res.ok) throw new Error("Failed to fetch posts");
+        if (!res.ok) throw new Error('Failed to fetch posts');
 
         const posts: Post[] = await res.json();
 

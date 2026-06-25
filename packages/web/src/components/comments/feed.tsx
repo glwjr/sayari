@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { formatDistance } from "date-fns";
-import { useAuth } from "@/contexts/auth-context";
-import { Comment } from "@sayari/types";
-import CommentAvatar from "./avatar";
-import { apiClient } from "@/lib/api-client";
-import ErrorFeedback from "../common/error-feedback";
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { formatDistance } from 'date-fns';
+import { useAuth } from '@/contexts/auth-context';
+import { Comment } from '@sayari/types';
+import CommentAvatar from './avatar';
+import { apiClient } from '@/lib/api-client';
+import ErrorFeedback from '../common/error-feedback';
 
 function formatCommentDate(date: Date) {
   const formattedDate = formatDistance(date, new Date(), {
@@ -25,8 +25,8 @@ export default function CommentFeed({
 }) {
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
-  const [error, setError] = useState("");
-  const [content, setContent] = useState("");
+  const [error, setError] = useState('');
+  const [content, setContent] = useState('');
 
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,13 +39,13 @@ export default function CommentFeed({
           userId: user.id,
           postId,
         });
-        setContent("");
+        setContent('');
         router.refresh();
       } catch (error) {
         setError((error as Error).message);
       }
     },
-    [content, user, postId, router]
+    [content, user, postId, router],
   );
 
   const handleDelete = async (commentId: string) => {
@@ -60,7 +60,7 @@ export default function CommentFeed({
 
   useEffect(() => {
     if (error) {
-      const timer = setTimeout(() => setError(""), 5000);
+      const timer = setTimeout(() => setError(''), 5000);
       return () => clearTimeout(timer);
     }
   }, [error]);
@@ -116,13 +116,13 @@ export default function CommentFeed({
                 <div className="py-0.5 text-xs/5 text-gray-500">
                   <span className="font-medium text-gray-900">
                     {comment.user.username}
-                  </span>{" "}
+                  </span>{' '}
                   commented
                 </div>
                 <span className="flex items-center gap-x-2 py-0.5 text-xs/5 text-gray-500">
                   {formatCommentDate(comment.createdAt)}
                   {isAuthenticated &&
-                  (user?.id === comment.user.id || user?.role === "admin") ? (
+                  (user?.id === comment.user.id || user?.role === 'admin') ? (
                     <>
                       <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
                         <circle r={1} cx={1} cy={1} />

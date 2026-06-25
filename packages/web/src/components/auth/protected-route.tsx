@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useAuthGuard } from "@/hooks/use-auth-guard";
-import { LoadingProgress } from "../common/loading-progress";
+import { useAuthGuard } from '@/hooks/use-auth-guard';
+import { LoadingProgress } from '../common/loading-progress';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({
   children,
   requiredRole,
-  fallbackPath = "/auth/login",
+  fallbackPath = '/auth/login',
 }: ProtectedRouteProps) {
   const { isAuthorized, loading, shouldRedirect } = useAuthGuard({
     requiredRole,

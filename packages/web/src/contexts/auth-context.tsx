@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   createContext,
@@ -6,24 +6,24 @@ import React, {
   useReducer,
   useEffect,
   ReactNode,
-} from "react";
-import { apiClient } from "@/lib/api-client";
+} from 'react';
+import { apiClient } from '@/lib/api-client';
 import {
   AuthAction,
   AuthContextType,
   AuthState,
   LoginCredentials,
   RegisterData,
-} from "@/types/auth";
-import { User } from "@sayari/types";
+} from '@/types/auth';
+import { User } from '@sayari/types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case "AUTH_START":
+    case 'AUTH_START':
       return { ...state, loading: true, error: null };
-    case "AUTH_SUCCESS":
+    case 'AUTH_SUCCESS':
       return {
         ...state,
         isAuthenticated: true,
@@ -32,7 +32,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         loading: false,
         error: null,
       };
-    case "AUTH_ERROR":
+    case 'AUTH_ERROR':
       return {
         ...state,
         isAuthenticated: false,
@@ -41,7 +41,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         loading: false,
         error: action.payload,
       };
-    case "LOGOUT":
+    case 'LOGOUT':
       return {
         ...state,
         isAuthenticated: false,
@@ -50,9 +50,9 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         loading: false,
         error: null,
       };
-    case "CLEAR_ERROR":
+    case 'CLEAR_ERROR':
       return { ...state, error: null };
-    case "SET_LOADING":
+    case 'SET_LOADING':
       return { ...state, loading: action.payload };
     default:
       return state;
@@ -71,21 +71,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Initialize auth state on mount
   useEffect(() => {
     const initializeAuth = async () => {
-      const token = localStorage.getItem("access_token");
+      const token = localStorage.getItem('access_token');
       if (token) {
         try {
-          const user = await apiClient.get<User>("/auth/validate");
+          const user = await apiClient.get<User>('/auth/validate');
           dispatch({
-            type: "AUTH_SUCCESS",
+            type: 'AUTH_SUCCESS',
             payload: { user, token },
           });
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-          localStorage.removeItem("access_token");
-          dispatch({ type: "AUTH_ERROR", payload: "Session expired" });
+          localStorage.removeItem('access_token');
+          dispatch({ type: 'AUTH_ERROR', payload: 'Session expired' });
         }
       } else {
-        dispatch({ type: "SET_LOADING", payload: false });
+        dispatch({ type: 'SET_LOADING', payload: false });
       }
     };
 
@@ -93,17 +93,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
-    dispatch({ type: "AUTH_START" });
+    dispatch({ type: 'AUTH_START' });
 
     try {
       const response = await apiClient.post<{
         access_token: string;
         user: User;
-      }>("/auth/login", credentials);
+      }>('/auth/login', credentials);
 
-      localStorage.setItem("access_token", response.access_token);
+      localStorage.setItem('access_token', response.access_token);
       dispatch({
-        type: "AUTH_SUCCESS",
+        type: 'AUTH_SUCCESS',
         payload: {
           user: response.user,
           token: response.access_token,
@@ -113,24 +113,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: true };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      const errorMessage = error.message || "Login failed";
-      dispatch({ type: "AUTH_ERROR", payload: errorMessage });
+      const errorMessage = error.message || 'Login failed';
+      dispatch({ type: 'AUTH_ERROR', payload: errorMessage });
       return { success: false, error: errorMessage };
     }
   };
 
   const register = async (userData: RegisterData) => {
-    dispatch({ type: "AUTH_START" });
+    dispatch({ type: 'AUTH_START' });
 
     try {
       const response = await apiClient.post<{
         access_token: string;
         user: User;
-      }>("/auth/register", userData);
+      }>('/auth/register', userData);
 
-      localStorage.setItem("access_token", response.access_token);
+      localStorage.setItem('access_token', response.access_token);
       dispatch({
-        type: "AUTH_SUCCESS",
+        type: 'AUTH_SUCCESS',
         payload: {
           user: response.user,
           token: response.access_token,
@@ -140,27 +140,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: true };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      const errorMessage = error.message || "Registration failed";
-      dispatch({ type: "AUTH_ERROR", payload: errorMessage });
+      const errorMessage = error.message || 'Registration failed';
+      dispatch({ type: 'AUTH_ERROR', payload: errorMessage });
       return { success: false, error: errorMessage };
     }
   };
 
   const logout = () => {
-    localStorage.removeItem("access_token");
-    dispatch({ type: "LOGOUT" });
+    localStorage.removeItem('access_token');
+    dispatch({ type: 'LOGOUT' });
   };
 
   const clearError = () => {
-    dispatch({ type: "CLEAR_ERROR" });
+    dispatch({ type: 'CLEAR_ERROR' });
   };
 
   const refreshUser = async () => {
     try {
-      const user = await apiClient.get<User>("/users/profile");
+      const user = await apiClient.get<User>('/users/profile');
       if (state.token) {
         dispatch({
-          type: "AUTH_SUCCESS",
+          type: 'AUTH_SUCCESS',
           payload: { user, token: state.token },
         });
       }
@@ -188,7 +188,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }

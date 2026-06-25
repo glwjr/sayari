@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { formatDate } from "date-fns";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { formatDate } from 'date-fns';
 import {
   CalendarIcon,
   PencilSquareIcon,
   TrashIcon,
   UserCircleIcon,
-} from "@heroicons/react/20/solid";
-import { useAuth } from "@/contexts/auth-context";
-import CommentFeed from "@/components/comments/feed";
-import { LoadingProgress } from "@/components/common/loading-progress";
-import { apiClient } from "@/lib/api-client";
-import { Post } from "@sayari/types";
+} from '@heroicons/react/20/solid';
+import { useAuth } from '@/contexts/auth-context';
+import CommentFeed from '@/components/comments/feed';
+import { LoadingProgress } from '@/components/common/loading-progress';
+import { apiClient } from '@/lib/api-client';
+import { Post } from '@sayari/types';
 
 export default function PostPage({
   params,
@@ -37,7 +37,7 @@ export default function PostPage({
     try {
       await apiClient.delete(`/posts/${postId}`);
 
-      router.push("/");
+      router.push('/');
     } catch (error) {
       setState({
         post: null,
@@ -74,7 +74,7 @@ export default function PostPage({
     );
 
   if (state.error || !state.post) {
-    throw new Error(state.error ?? "Unknown error");
+    throw new Error(state.error ?? 'Unknown error');
   }
 
   return (
@@ -102,7 +102,7 @@ export default function PostPage({
                 aria-hidden="true"
                 className="mr-1.5 size-5 shrink-0 text-gray-400"
               />
-              {formatDate(`${state.post.createdAt}`, "PPPPp")}
+              {formatDate(`${state.post.createdAt}`, 'PPPPp')}
             </div>
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function PostPage({
                 </button>
               </span>
             )}
-            {(state.post.user.id === user?.id || user?.role === "admin") && (
+            {(state.post.user.id === user?.id || user?.role === 'admin') && (
               <span>
                 <button
                   onClick={() => handleDelete(state.post!.id)}
