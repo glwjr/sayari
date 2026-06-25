@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "@sayari/server",
   "version": "0.0.1",
   "author": "Gary White",
   "private": true,
