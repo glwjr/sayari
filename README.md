@@ -15,6 +15,7 @@ Sayari is a full-stack social media application built for learning and experimen
 - [Development](#development)
   - [Backend (NestJS)](#backend-nestjs)
   - [Frontend (Next.js)](#frontend-nextjs)
+  - [Shared Types](#shared-types)
 - [Testing](#testing)
 - [Project Structure](#project-structure)
 - [API Overview](#api-overview)
@@ -28,8 +29,8 @@ Sayari is a full-stack social media application built for learning and experimen
 - Comment on posts
 - Admin panel for user management
 - Responsive UI with Tailwind CSS
-- Type-safe API and shared types
-- Isolated `server` and `web` packages
+- Shared TypeScript types across packages
+- Monorepo managed with Turborepo
 
 ## Repo Structure
 
@@ -37,7 +38,11 @@ Sayari is a full-stack social media application built for learning and experimen
 .
 ├── packages/
 │   ├── server/   # NestJS backend API
+│   ├── types/    # Shared TypeScript types (@sayari/types)
 │   └── web/      # Next.js frontend app
+├── package.json  # Root workspace
+├── turbo.json
+├── tsconfig.base.json
 ├── LICENSE
 └── .gitignore
 ```
@@ -46,8 +51,10 @@ Sayari is a full-stack social media application built for learning and experimen
 
 - **Backend:** [NestJS](https://nestjs.com/), [TypeORM](https://typeorm.io/), [PostgreSQL](https://www.postgresql.org/)
 - **Frontend:** [Next.js](https://nextjs.org/), [React](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/)
+- **Shared:** TypeScript, [`@sayari/types`](packages/types)
 - **Auth:** JWT, bcrypt
 - **Testing:** Jest, Supertest
+- **Monorepo:** [Turborepo](https://turbo.build/)
 - **Dev Tools:** ESLint, Prettier, TypeScript
 
 ## Getting Started
@@ -55,33 +62,40 @@ Sayari is a full-stack social media application built for learning and experimen
 ### Prerequisites
 
 - Node.js (v18+ recommended)
-- npm, yarn, or pnpm
+- npm v11+
 - PostgreSQL database
 
 ### Environment Variables
 
-Create `.env` files in both `packages/server/` and `packages/web/`:
+Copy the example files and fill in your values:
+
+```sh
+cp packages/server/.env.example packages/server/.env
+cp packages/web/.env.example packages/web/.env
+```
 
 #### `packages/server/.env`
 
 ```
-DATABASE_URL=<your-postgres-database-url>
-JWT_SECRET=<your-jwt-secret>
-ADMIN_USERNAME=<your-admin-username>
-ADMIN_PASSWORD=<your-admin-password>
+DATABASE_URL=postgres://user:password@localhost:5432/sayari
+JWT_SECRET=change-me
 FRONTEND_URL=http://localhost:3000
 PORT=8000
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
 ```
 
 #### `packages/server/.env.test`
 
+For e2e tests, create a separate `.env.test` pointing at a test database (e.g. `sayari_test`):
+
 ```
-DATABASE_URL=<your-test-postgres-database-url>
-JWT_SECRET=<your-test-jwt-secret>
-ADMIN_USERNAME=<your-test-admin-username>
-ADMIN_PASSWORD=<your-test-admin-password>
+DATABASE_URL=postgres://user:password@localhost:5432/sayari_test
+JWT_SECRET=test-secret
 FRONTEND_URL=http://localhost:3000
 PORT=8001
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
 ```
 
 #### `packages/web/.env`
@@ -90,34 +104,32 @@ PORT=8001
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
-Note: Make sure to create a separate test database (`sayari_test`) for running e2e tests.
-
 ### Installation
 
-From the repo root:
+From the repo root (installs all packages via npm workspaces):
 
 ```sh
-cd packages/server
-npm install
-
-cd ../web
 npm install
 ```
 
 ### Running the Apps
 
-#### Start the Backend
+#### Run everything at once (recommended)
 
 ```sh
-cd packages/server
-npm run start:dev
+npm run dev
 ```
 
-#### Start the Frontend
+This starts both the backend and frontend in parallel via Turborepo.
+
+#### Or start each individually
 
 ```sh
-cd packages/web
-npm run dev
+# Backend
+cd packages/server && npm run start:dev
+
+# Frontend
+cd packages/web && npm run dev
 ```
 
 - Backend: [http://localhost:8000](http://localhost:8000)
@@ -143,6 +155,12 @@ npm run dev
 - API client in [`src/lib/api-client.ts`](packages/web/src/lib/api-client.ts)
 - Tailwind CSS for styling
 
+### Shared Types
+
+- Source: [`packages/types`](packages/types)
+- Package name: `@sayari/types`
+- Imported by both `server` and `web` for type-safe API contracts
+
 ## Testing
 
 ### Backend
@@ -150,12 +168,19 @@ npm run dev
 ```sh
 cd packages/server
 npm run test         # Unit tests
-npm run test:e2e     # End-to-end tests
+npm run test:e2e     # End-to-end tests (requires .env.test and sayari_test DB)
+```
+
+Or from the root:
+
+```sh
+npm run test
+npm run test:e2e
 ```
 
 ### Frontend
 
-- Use [Jest](https://jestjs.io/) or [React Testing Library](https://testing-library.com/) (not yet set up by default).
+Frontend tests are not yet configured.
 
 ## Project Structure
 
@@ -166,6 +191,7 @@ npm run test:e2e     # End-to-end tests
     - `posts/`: Post entity, controller, service
     - `comments/`: Comment entity, controller, service
     - `database/seeds/`: Seed admin user
+- [`packages/types`](packages/types): Shared TypeScript types (`@sayari/types`)
 - [`packages/web`](packages/web): Next.js frontend
   - `src/`
     - `app/`: App routes and pages
@@ -173,7 +199,7 @@ npm run test:e2e     # End-to-end tests
     - `contexts/`: React context (auth)
     - `hooks/`: Custom hooks
     - `lib/`: API client
-    - `types/`: Shared TypeScript types
+    - `types/`: Local type extensions
 
 ## API Overview
 
