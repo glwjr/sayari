@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Post } from './post.entity';
 import { User, UserRole } from 'src/users/user.entity';
+import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { Post } from './post.entity';
 
 @Injectable()
 export class PostsService {

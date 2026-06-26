@@ -1,4 +1,4 @@
-import { IsBoolean, IsString, IsOptional } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import { UserRole } from '../user.entity';
 
 export class UpdateUserDto {

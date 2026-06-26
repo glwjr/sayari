@@ -3,21 +3,21 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
   Request,
   ValidationPipe,
-  HttpCode,
-  HttpStatus,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User, UserRole } from './user.entity';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User, UserRole } from './user.entity';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
@@ -39,9 +39,7 @@ export class UsersController {
 
   @Get('profile')
   @HttpCode(HttpStatus.OK)
-  getProfile(
-    @Request() req: { user: { id: string } },
-  ): Promise<User | null> {
+  getProfile(@Request() req: { user: { id: string } }): Promise<User | null> {
     return this.usersService.findById(req.user.id);
   }
 

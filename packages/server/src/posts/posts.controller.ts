@@ -4,20 +4,20 @@ import {
   Delete,
   Get,
   HttpCode,
+  Post as HttpPost,
   HttpStatus,
   Param,
   ParseUUIDPipe,
   Patch,
-  Post as HttpPost,
-  Request,
   Query,
+  Request,
   ValidationPipe,
 } from '@nestjs/common';
-import { PostsService } from './posts.service';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from './post.entity';
-import { Public } from 'src/auth/decorators/public.decorator';
+import { PostsService } from './posts.service';
 
 @Controller('posts')
 export class PostsController {

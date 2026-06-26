@@ -1,12 +1,12 @@
+import { ForbiddenException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UsersService } from './users.service';
-import { User, UserRole } from './user.entity';
 import { hashPassword } from 'src/auth/auth.util';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ForbiddenException } from '@nestjs/common';
+import { User, UserRole } from './user.entity';
+import { UsersService } from './users.service';
 
 jest.mock('src/auth/auth.util', () => ({
   hashPassword: jest.fn((pw: string) => `hashed-${pw}`),

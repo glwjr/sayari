@@ -1,15 +1,15 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
+  Post as HttpPost,
   HttpStatus,
   Param,
   ParseUUIDPipe,
-  Post as HttpPost,
-  ValidationPipe,
-  Delete,
   Request,
+  ValidationPipe,
 } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { Comment } from './comment.entity';

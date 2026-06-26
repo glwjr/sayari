@@ -119,7 +119,10 @@ describe('AuthGuard', () => {
       reflector.getAllAndOverride
         .mockReturnValueOnce(false)
         .mockReturnValueOnce(['admin']);
-      jwtService.verifyAsync.mockResolvedValue({ id: '1', username: 'testuser' });
+      jwtService.verifyAsync.mockResolvedValue({
+        id: '1',
+        username: 'testuser',
+      });
 
       await expect(
         guard.canActivate(makeContext('Bearer valid-token')),

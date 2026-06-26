@@ -1,12 +1,12 @@
+import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { PostsService } from './posts.service';
-import { Post } from './post.entity';
 import { User, UserRole } from 'src/users/user.entity';
+import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { NotFoundException } from '@nestjs/common';
+import { Post } from './post.entity';
+import { PostsService } from './posts.service';
 
 const mockUser: User = {
   id: 'user-1',

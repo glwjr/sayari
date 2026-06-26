@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { User, UserRole } from 'src/users/user.entity';
+import { Comment } from './comment.entity';
 import { CommentsController } from './comments.controller';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { Comment } from './comment.entity';
-import { User, UserRole } from 'src/users/user.entity';
 
 describe('CommentsController', () => {
   let controller: CommentsController;

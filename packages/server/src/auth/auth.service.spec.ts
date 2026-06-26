@@ -1,9 +1,9 @@
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
-import { UsersService } from 'src/users/users.service';
+import { Test, TestingModule } from '@nestjs/testing';
 import { UserRole } from 'src/users/user.entity';
+import { UsersService } from 'src/users/users.service';
+import { AuthService } from './auth.service';
 import { compareHash } from './auth.util';
 
 jest.mock('./auth.util', () => ({
@@ -102,7 +102,10 @@ describe('AuthService', () => {
       });
 
       const { passwordHash: _, ...expectedUser } = mockUser;
-      expect(result).toEqual({ access_token: 'signed-token', user: expectedUser });
+      expect(result).toEqual({
+        access_token: 'signed-token',
+        user: expectedUser,
+      });
       expect(jwtService.signAsync).toHaveBeenCalledWith({
         id: mockUser.id,
         username: mockUser.username,
@@ -135,7 +138,10 @@ describe('AuthService', () => {
         password: 'pw',
       });
       const { passwordHash: _, ...expectedUser } = mockUser;
-      expect(result).toEqual({ access_token: 'signed-token', user: expectedUser });
+      expect(result).toEqual({
+        access_token: 'signed-token',
+        user: expectedUser,
+      });
       expect(jwtService.signAsync).toHaveBeenCalledWith({
         id: mockUser.id,
         username: mockUser.username,

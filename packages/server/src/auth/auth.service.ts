@@ -7,9 +7,9 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthResponse } from '@sayari/types';
 import { User } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { compareHash } from './auth.util';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
-import { compareHash } from './auth.util';
 
 interface JwtPayload {
   id: string;

@@ -40,9 +40,7 @@ export class AuthController {
 
   @Get('validate')
   @HttpCode(HttpStatus.OK)
-  validate(
-    @Request() req: AuthenticatedRequest,
-  ): AuthenticatedRequest['user'] {
+  validate(@Request() req: AuthenticatedRequest): AuthenticatedRequest['user'] {
     return req.user;
   }
 }

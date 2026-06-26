@@ -1,3 +1,5 @@
+import { Comment } from 'src/comments/comment.entity';
+import { User } from 'src/users/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,8 +10,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from 'src/users/user.entity';
-import { Comment } from 'src/comments/comment.entity';
 
 @Entity()
 export class Post {
