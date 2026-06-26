@@ -12,8 +12,10 @@ dist/
 build/
 .next/
 
-# Environment variables
+# Environment variables (.example files are committed)
 .env
+.env.local
+.env.*.local
 
 # Logs
 logs/
