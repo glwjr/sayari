@@ -101,7 +101,8 @@ describe('AuthService', () => {
         password: 'pw',
       });
 
-      expect(result).toEqual({ access_token: 'signed-token' });
+      const { passwordHash: _, ...expectedUser } = mockUser;
+      expect(result).toEqual({ access_token: 'signed-token', user: expectedUser });
       expect(jwtService.signAsync).toHaveBeenCalledWith({
         id: mockUser.id,
         username: mockUser.username,
@@ -133,7 +134,8 @@ describe('AuthService', () => {
         username: 'testuser',
         password: 'pw',
       });
-      expect(result).toEqual({ access_token: 'signed-token' });
+      const { passwordHash: _, ...expectedUser } = mockUser;
+      expect(result).toEqual({ access_token: 'signed-token', user: expectedUser });
       expect(jwtService.signAsync).toHaveBeenCalledWith({
         id: mockUser.id,
         username: mockUser.username,
